@@ -2,7 +2,7 @@ import * as THREE from 'three';
 let canvas, renderer, fov, aspect, near, far, camera, scene, boxWidth, boxDepth, boxHeight, geometry, material,cube;
 function main() {
   canvas = document.querySelector('#c');
-  renderer = new THREE.WebGLRenderer({canvas});
+  renderer = new THREE.WebGLRenderer({canvas, alpha: true,});
   fov = 75;
   aspect = 2;  // the canvas default
   near = 0.1;
@@ -10,6 +10,12 @@ function main() {
   camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
   camera.position.z = 2;
   scene = new THREE.Scene();
+  const loader = new THREE.TextureLoader().load( "100898824_braden-red-oak-wire-brushed-solid-hardwood_display.png" );;
+//   const bgTexture = loader.load('');
+  loader.wrapS = THREE.RepeatWrapping;
+  loader.wrapT = THREE.RepeatWrapping;
+  loader.repeat.set(8, 8);
+  scene.background = loader;
   {
     const color = 0xFFFFFF;
     const intensity = 1;
