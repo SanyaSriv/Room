@@ -17,9 +17,9 @@ let chandelier1, chandelier2, chandelier3;
 // the chandelier will have 4 bulbs
 let bulb1, bulb2, bulb3, bulb4, bulb5, bulb6, bulb7, bulb8, detail;
 let objLoader, mtlLoader;
-let table;
+let table, table2, table3, table4;
 let bed_panel;
-let tube_light1, tube_light2;
+let tube_light1, tube_light2, fireplace_mesh;
 
 function main() {
   canvas = document.querySelector('#c');
@@ -421,9 +421,9 @@ function main() {
   });
 
   // going to add the table
-  boxWidth = 5;
+  boxWidth = 4;
   boxHeight = 8;
-  boxDepth = 45;
+  boxDepth = 11;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
   loader = new THREE.TextureLoader();
   texture = loader.load('wood_light.jpeg');
@@ -433,9 +433,57 @@ function main() {
   material = new THREE.MeshPhongMaterial({map: texture,});
   table = new THREE.Mesh(geometry, material);
   table.position.x = -16.5;
-  table.position.z = -40;
+  table.position.z = -48;
   table.position.y = -7.5;
   scene.add(table);
+
+  boxWidth = 4;
+  boxHeight = 8;
+  boxDepth = 11;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  loader = new THREE.TextureLoader();
+  texture = loader.load('wood_light.jpeg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(1.5, 1.5);
+  material = new THREE.MeshPhongMaterial({map: texture,});
+  table2 = new THREE.Mesh(geometry, material);
+  table2.position.x = -16.5;
+  table2.position.z = -25;
+  table2.position.y = -7.5;
+  scene.add(table2);
+
+  boxWidth = 4;
+  boxHeight = 1.5;
+  boxDepth = 12;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  loader = new THREE.TextureLoader();
+  texture = loader.load('table_texture.jpeg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(1.5, 1.5);
+  material = new THREE.MeshPhongMaterial({map: texture,});
+  table3 = new THREE.Mesh(geometry, material);
+  table3.position.x = -16.5;
+  table3.position.z = -36.5;
+  table3.position.y = -4.2;
+  scene.add(table3);
+
+  boxWidth = 4;
+  boxHeight = 0.6;
+  boxDepth = 12;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  loader = new THREE.TextureLoader();
+  texture = loader.load('table_texture.jpeg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(1.5, 1.5);
+  material = new THREE.MeshPhongMaterial({map: texture,});
+  table4 = new THREE.Mesh(geometry, material);
+  table4.position.x = -16.5;
+  table4.position.z = -36.5;
+  table4.position.y = -11.5;
+  scene.add(table4);
 
   // going to add the bed panel
   boxWidth = 1.5;
@@ -479,7 +527,21 @@ function main() {
   tube_light2.position.z = -50;
   scene.add(tube_light2);
 
-  
+  // trying to create the electric fire place
+  boxWidth = 0.4;
+  boxHeight = 6.5;
+  boxDepth = 12;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  material = new THREE.MeshPhysicalMaterial({  
+    roughness: 0.5,  
+    transmission: 1,  
+    thickness: 4,
+  });
+  fireplace_mesh = new THREE.Mesh(geometry, material);
+  fireplace_mesh.position.x = -14.88;
+  fireplace_mesh.position.z = -37;
+  fireplace_mesh.position.y = -8;
+  scene.add(fireplace_mesh);
 
   renderer.render(scene, camera);
   requestAnimationFrame(render);
