@@ -8,6 +8,7 @@ let skyMaterials, SkyMaterial, cube1;
 let skyboxGeometry;
 let floor_cube, wall_left, wall_right, wall_back, wall_top;
 let window_frame;
+let bedside_table_left, bedside_table_right;
 
 function main() {
   canvas = document.querySelector('#c');
@@ -160,6 +161,32 @@ function main() {
   wall_top.position.z = -40;
   wall_top.position.y = 32;
   scene.add(wall_top);
+
+
+  // Making the bed side tables
+  let radiusTop = 2;  // ui: radiusTop
+  let radiusBottom = 2;  // ui: radiusBottom
+  let height = 4;  // ui: height
+  let radialSegments = 8;  // ui: radialSegments
+  geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
+  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+  bedside_table_left = new THREE.Mesh(geometry, material);
+  bedside_table_left.position.x = 18; // this is left-right
+  bedside_table_left.position.y = -9; // this is the depth
+  bedside_table_left.position.z = -53; // this is front-back
+  scene.add(bedside_table_left);
+
+  radiusTop = 2;  // ui: radiusTop
+  radiusBottom = 2;  // ui: radiusBottom
+  height = 4;  // ui: height
+  radialSegments = 8;  // ui: radialSegments
+  geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
+  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+  bedside_table_right = new THREE.Mesh(geometry, material);
+  bedside_table_right.position.x = 18; // this is left-right
+  bedside_table_right.position.y = -9; // this is the depth
+  bedside_table_right.position.z = -33; // this is front-back
+  scene.add(bedside_table_right);
 
   renderer.render(scene, camera);
   requestAnimationFrame(render);
