@@ -16,7 +16,7 @@ let painting;
 let chandelier1, chandelier2, chandelier3;
 // the chandelier will have 4 bulbs
 let bulb1, bulb2, bulb3, bulb4, bulb5, bulb6, bulb7, bulb8, detail;
-
+let objLoader, mtlLoader;
 function main() {
   canvas = document.querySelector('#c');
   renderer = new THREE.WebGLRenderer({canvas, alpha: true,});
@@ -246,8 +246,8 @@ function main() {
   scene.add(bedside_table_right);
 
   // making the bed
-  const objLoader = new OBJLoader();
-  const mtlLoader = new MTLLoader();
+  objLoader = new OBJLoader();
+  mtlLoader = new MTLLoader();
   mtlLoader.load('enlarged-bed-obj/enlarged-bed.mtl', (mtl) => {
     mtl.preload();
    for (const material of Object.values(mtl.materials)) {
@@ -391,6 +391,30 @@ function main() {
   bulb8.position.z = -30;
   bulb8.position.x = 7;
   scene.add(bulb8);
+
+  // chandelier complete
+
+  // going to render the TV from the object file
+  objLoader = new OBJLoader();
+  mtlLoader = new MTLLoader();
+  mtlLoader.load('flat-screen-lcd-tv-obj/flat-screen-lcd-tv.mtl', (mtl) => {
+    mtl.preload();
+   for (const material of Object.values(mtl.materials)) {
+     material.side = THREE.DoubleSide;
+   }
+    objLoader.setMaterials(mtl);
+    objLoader.load('flat-screen-lcd-tv-obj/flat-screen-lcd-tv.obj', (root) => {
+      root.position.y = -1;
+      root.position.x = -19;
+      root.position.z = -38;
+      scene.add(root);
+      const box = new THREE.Box3().setFromObject(root);
+  const boxSize = box.getSize(new THREE.Vector3()).length();
+  const boxCenter = box.getCenter(new THREE.Vector3());
+  console.log(boxSize);
+  console.log(boxCenter);
+    });
+  });
 
   renderer.render(scene, camera);
   requestAnimationFrame(render);
