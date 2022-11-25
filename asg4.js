@@ -65,7 +65,14 @@ function main() {
   boxHeight = 0.5;
   boxDepth = 45;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x44aa88});
+  let loader = new THREE.TextureLoader();
+  let texture = loader.load('wall.jpeg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(4, 4);
+  // this could also be MeshBasicMaterial
+  material = new THREE.MeshPhongMaterial({map: texture,});
+//   material = new THREE.MeshPhongMaterial({color: 0x44aa88});
   floor_cube = new THREE.Mesh(geometry, material);
   floor_cube.position.x = 2;
   floor_cube.position.z = -40;
@@ -77,7 +84,12 @@ function main() {
   boxHeight = 45;
   boxDepth = 45;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x44aa88});
+  loader = new THREE.TextureLoader();
+  texture = loader.load('wall_tile2.jpeg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(4, 4);
+  material = new THREE.MeshPhongMaterial({map: texture,});
   wall_left = new THREE.Mesh(geometry, material);
   wall_left.position.x = -20;
   wall_left.position.z = -40;
@@ -89,7 +101,12 @@ function main() {
   boxHeight = 45;
   boxDepth = 45;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x44aa88});
+  loader = new THREE.TextureLoader();
+  texture = loader.load('wall_tile.jpeg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(4, 4);
+  material = new THREE.MeshPhongMaterial({map: texture,});
   wall_right = new THREE.Mesh(geometry, material);
   wall_right.position.x = 24.5;
   wall_right.position.z = -40;
@@ -113,7 +130,12 @@ function main() {
   boxHeight = 0.5;
   boxDepth = 45;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x44aa88});
+  loader = new THREE.TextureLoader();
+  texture = loader.load('wall_tile2.jpeg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(4, 4);
+  material = new THREE.MeshPhongMaterial({map: texture,});
   wall_top = new THREE.Mesh(geometry, material);
   wall_top.position.x = 2;
   wall_top.position.z = -40;
