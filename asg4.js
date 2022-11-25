@@ -19,6 +19,7 @@ let bulb1, bulb2, bulb3, bulb4, bulb5, bulb6, bulb7, bulb8, detail;
 let objLoader, mtlLoader;
 let table;
 let bed_panel;
+let tube_light1, tube_light2;
 
 function main() {
   canvas = document.querySelector('#c');
@@ -71,13 +72,13 @@ function main() {
   }
 
 
-  boxWidth = 1;
-  boxHeight = 1;
-  boxDepth = 1;
-  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x44aa88});  // greenish blue
-  cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
+  // boxWidth = 1;
+  // boxHeight = 1;
+  // boxDepth = 1;
+  // geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  // material = new THREE.MeshPhongMaterial({color: 0x44aa88});  // greenish blue
+  // cube = new THREE.Mesh(geometry, material);
+  // scene.add(cube);
 
   // making the floor cube
   boxWidth = 45;
@@ -453,6 +454,33 @@ function main() {
   bed_panel.position.y = -7.5;
   scene.add(bed_panel);
   
+  // drawing the bed side lights
+  let tubeRadius1 = 1;  // ui: radius
+  let tubeRadius2 = 0.4;  // ui: tubeRadius
+  let tubeRadialSegments = 12;  // ui: radialSegments
+  let tubularSegments = 12;  // ui: tubularSegments
+  geometry = new THREE.TorusGeometry(tubeRadius1, tubeRadius2, tubeRadialSegments, tubularSegments);
+  material = new THREE.MeshPhongMaterial({color: 0xf7e294});
+  tube_light1 = new THREE.Mesh(geometry, material);
+  tube_light1.rotation.y = 1.5;
+  tube_light1.position.x = 23;
+  tube_light1.position.z = -30;
+  scene.add(tube_light1);
+
+  tubeRadius1 = 1;  // ui: radius
+  tubeRadius2 = 0.4;  // ui: tubeRadius
+  tubeRadialSegments = 12;  // ui: radialSegments
+  tubularSegments = 12;  // ui: tubularSegments
+  geometry = new THREE.TorusGeometry(tubeRadius1, tubeRadius2, tubeRadialSegments, tubularSegments);
+  material = new THREE.MeshPhongMaterial({color: 0xf7e294});
+  tube_light2 = new THREE.Mesh(geometry, material);
+  tube_light2.rotation.y = 1.5;
+  tube_light2.position.x = 23;
+  tube_light2.position.z = -50;
+  scene.add(tube_light2);
+
+  
+
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 }
