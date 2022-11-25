@@ -17,6 +17,9 @@ let chandelier1, chandelier2, chandelier3;
 // the chandelier will have 4 bulbs
 let bulb1, bulb2, bulb3, bulb4, bulb5, bulb6, bulb7, bulb8, detail;
 let objLoader, mtlLoader;
+let table;
+let bed_panel;
+
 function main() {
   canvas = document.querySelector('#c');
   renderer = new THREE.WebGLRenderer({canvas, alpha: true,});
@@ -248,13 +251,13 @@ function main() {
   // making the bed
   objLoader = new OBJLoader();
   mtlLoader = new MTLLoader();
-  mtlLoader.load('enlarged-bed-obj/enlarged-bed.mtl', (mtl) => {
+  mtlLoader.load('enlarged-bed-obj (3)/enlarged-bed.mtl', (mtl) => {
     mtl.preload();
    for (const material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
    }
     objLoader.setMaterials(mtl);
-    objLoader.load('enlarged-bed-obj/enlarged-bed.obj', (root) => {
+    objLoader.load('enlarged-bed-obj (3)/enlarged-bed.obj', (root) => {
       root.position.y = -14;
       root.position.x = 24;
       root.position.z = -42;
@@ -416,6 +419,40 @@ function main() {
     });
   });
 
+  // going to add the table
+  boxWidth = 5;
+  boxHeight = 8;
+  boxDepth = 45;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  loader = new THREE.TextureLoader();
+  texture = loader.load('wood_light.jpeg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(1.5, 1.5);
+  material = new THREE.MeshPhongMaterial({map: texture,});
+  table = new THREE.Mesh(geometry, material);
+  table.position.x = -16.5;
+  table.position.z = -40;
+  table.position.y = -7.5;
+  scene.add(table);
+
+  // going to add the bed panel
+  boxWidth = 1.5;
+  boxHeight = 8;
+  boxDepth = 25;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  loader = new THREE.TextureLoader();
+  texture = loader.load('wood_light.jpeg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(1.5, 1.5);
+  material = new THREE.MeshPhongMaterial({map: texture,});
+  bed_panel = new THREE.Mesh(geometry, material);
+  bed_panel.position.x = 23;
+  bed_panel.position.z = -40;
+  bed_panel.position.y = -7.5;
+  scene.add(bed_panel);
+  
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 }
