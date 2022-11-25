@@ -10,7 +10,7 @@ let controls;
 let skyMaterials, SkyMaterial, cube1;
 let skyboxGeometry;
 let floor_cube, wall_left, wall_right, wall_back, wall_top;
-let window_frame;
+let window_frame, window_frame_horizontal_1, window_frame_horizontal_2;
 let bedside_table_left, bedside_table_right;
 let painting;
 
@@ -31,9 +31,15 @@ function main() {
 
   scene = new THREE.Scene();
   {
-    const color = 0xFFFFFF;
-    const intensity = 1;
-    const light = new THREE.DirectionalLight(color, intensity);
+    let color = 0xFFFFFF;
+    let intensity = 1;
+    let light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(-1, 2, 4);
+    scene.add(light);
+    // adding it to see the roof better
+    color = 0xFFFFFF;
+    intensity = 0.4;
+    light = new THREE.AmbientLight(color, intensity);
     light.position.set(-1, 2, 4);
     scene.add(light);
   }
@@ -138,6 +144,7 @@ function main() {
   scene.add(wall_back);
 
   // making the window frame
+  // vertical window frame
   boxWidth = 0.4;
   boxHeight = 43;
   boxDepth = 0.4;
@@ -148,6 +155,30 @@ function main() {
   window_frame.position.z = -60;
   window_frame.position.y = 9;
   scene.add(window_frame);
+
+  // horizontal window frame 1
+  boxWidth = 43;
+  boxHeight = 0.4;
+  boxDepth = 0.4;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+  window_frame_horizontal_1 = new THREE.Mesh(geometry, material);
+  window_frame_horizontal_1.position.x = 2;
+  window_frame_horizontal_1.position.z = -60;
+  window_frame_horizontal_1.position.y = 15;
+  scene.add(window_frame_horizontal_1);
+
+  // horizontal window frame 2
+  boxWidth = 43;
+  boxHeight = 0.4;
+  boxDepth = 0.4;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+  window_frame_horizontal_2 = new THREE.Mesh(geometry, material);
+  window_frame_horizontal_2.position.x = 2;
+  window_frame_horizontal_2.position.z = -60;
+  window_frame_horizontal_2.position.y = 2;
+  scene.add(window_frame_horizontal_2);
 
   // making the top wall
   boxWidth = 45;
@@ -166,6 +197,25 @@ function main() {
   wall_top.position.y = 32;
   scene.add(wall_top);
 
+   // making the painting
+   boxWidth = 0.6;
+   boxHeight = 12;
+   boxDepth = 12;
+   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+   loader = new THREE.TextureLoader();
+   const materials = [
+    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg')}),
+    new THREE.MeshBasicMaterial({map: loader.load('wolf.jpg')}),
+    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg')}),
+    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg')}),
+    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg')}),
+    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg')}),
+  ];
+  painting = new THREE.Mesh(geometry, materials);
+  painting.position.x = 23;
+  painting.position.z = -41;
+  painting.position.y = 4;
+  scene.add(painting);
 
   // Making the bed side tables
   let radiusTop = 2;  // ui: radiusTop
