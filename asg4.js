@@ -13,6 +13,9 @@ let floor_cube, wall_left, wall_right, wall_back, wall_top;
 let window_frame, window_frame_horizontal_1, window_frame_horizontal_2;
 let bedside_table_left, bedside_table_right;
 let painting;
+let chandelier1, chandelier2, chandelier3;
+// the chandelier will have 4 bulbs
+let bulb1, bulb2, bulb3, bulb4, bulb5, bulb6, bulb7, bulb8, detail;
 
 function main() {
   canvas = document.querySelector('#c');
@@ -264,6 +267,130 @@ function main() {
     });
   });
 
+  // adding the chandelier (this might contain animation too)
+  // first part of the chandelier
+  radiusTop = 0.1;  // ui: radiusTop
+  radiusBottom = 0.1;  // ui: radiusBottom
+  height = 7;  // ui: height
+  radialSegments = 10;  // ui: radialSegments
+  geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
+  material = new THREE.MeshPhongMaterial({color: 0xF5F5DC});
+  chandelier1 = new THREE.Mesh(geometry, material);
+  chandelier1.position.y = 27;
+  chandelier1.position.z = -33;
+  scene.add(chandelier1);
+
+  // second part of the chandelier
+  radiusTop = 0.1;  // ui: radiusTop
+  radiusBottom = 0.1;  // ui: radiusBottom
+  height = 15;  // ui: height
+  radialSegments = 10;  // ui: radialSegments
+  geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
+  material = new THREE.MeshPhongMaterial({color: 0xF5F5DC});
+  chandelier2 = new THREE.Mesh(geometry, material);
+  chandelier2.position.y = 23.5;
+  chandelier2.position.z = -33;
+  chandelier2.rotation.z = 90;
+  chandelier2.rotation.y = 75;
+  scene.add(chandelier2);
+
+  // third part of the chandelier
+  radiusTop = 0.1;  // ui: radiusTop
+  radiusBottom = 0.1;  // ui: radiusBottom
+  height = 15;  // ui: height
+  radialSegments = 10;  // ui: radialSegments
+  geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
+  material = new THREE.MeshPhongMaterial({color: 0xF5F5DC});
+  chandelier3 = new THREE.Mesh(geometry, material);
+  chandelier3.position.y = 23.5;
+  chandelier3.position.z = -33;
+  chandelier3.rotation.z = -90;
+  chandelier3.rotation.x = -20;
+  scene.add(chandelier3);
+
+  // bulb1
+  radiusTop = 0.9;
+  detail = 1;
+  geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933});
+  bulb1 = new THREE.Mesh(geometry, material);
+  bulb1.position.y = 22;
+  bulb1.position.z = -30;
+  bulb1.position.x = 7;
+  scene.add(bulb1);
+
+  radiusTop = 1.1;
+  detail = 0;
+  geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
+  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
+  bulb2 = new THREE.Mesh(geometry, material);
+  bulb2.position.y = 22;
+  bulb2.position.z = -30;
+  bulb2.position.x = 7;
+  scene.add(bulb2);
+  
+  // bulb2
+  radiusTop = 0.9;
+  detail = 1;
+  geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933});
+  bulb3 = new THREE.Mesh(geometry, material);
+  bulb3.position.y = 20;
+  bulb3.position.z = -35;
+  bulb3.position.x = -6.5;
+  scene.add(bulb3);
+
+  radiusTop = 1.1;
+  detail = 0;
+  geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
+  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
+  bulb4 = new THREE.Mesh(geometry, material);
+  bulb4.position.y = 20;
+  bulb4.position.z = -35;
+  bulb4.position.x = -6.5;
+  scene.add(bulb4);
+
+  // bulb3
+  radiusTop = 0.9;
+  detail = 1;
+  geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933});
+  bulb5 = new THREE.Mesh(geometry, material);
+  bulb5.position.y = 25;
+  bulb5.position.z = -35.5;
+  bulb5.position.x = -6.5;
+  scene.add(bulb5);
+
+  radiusTop = 1.1;
+  detail = 0;
+  geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
+  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
+  bulb6 = new THREE.Mesh(geometry, material);
+  bulb6.position.y = 25;
+  bulb6.position.z = -35.5;
+  bulb6.position.x = -6.5;
+  scene.add(bulb6);
+
+  // bulb4
+  radiusTop = 0.9;
+  detail = 1;
+  geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933});
+  bulb7 = new THREE.Mesh(geometry, material);
+  bulb7.position.y = 27;
+  bulb7.position.z = -30;
+  bulb7.position.x = 7;
+  scene.add(bulb7);
+
+  radiusTop = 1.1;
+  detail = 0;
+  geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
+  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
+  bulb8 = new THREE.Mesh(geometry, material);
+  bulb8.position.y = 27;
+  bulb8.position.z = -30;
+  bulb8.position.x = 7;
+  scene.add(bulb8);
 
   renderer.render(scene, camera);
   requestAnimationFrame(render);
