@@ -1,5 +1,8 @@
 import * as THREE from 'three';
+// import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r132/build/three.module.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
+import {OBJLoader} from "/Room/three.js-master/examples/jsm/loaders/OBJLoader.js";
+import {MTLLoader} from '/Room/three.js-master/examples/jsm/loaders/MTLLoader.js';
 let canvas, renderer, fov, aspect, near, far, camera, scene, boxWidth;
 let boxDepth, boxHeight, geometry, material,cube;
 let background;
@@ -9,6 +12,7 @@ let skyboxGeometry;
 let floor_cube, wall_left, wall_right, wall_back, wall_top;
 let window_frame;
 let bedside_table_left, bedside_table_right;
+let painting;
 
 function main() {
   canvas = document.querySelector('#c');
@@ -185,8 +189,31 @@ function main() {
   bedside_table_right = new THREE.Mesh(geometry, material);
   bedside_table_right.position.x = 18; // this is left-right
   bedside_table_right.position.y = -9; // this is the depth
-  bedside_table_right.position.z = -33; // this is front-back
+  bedside_table_right.position.z = -28; // this is front-back
   scene.add(bedside_table_right);
+
+  // making the bed
+  const objLoader = new OBJLoader();
+  const mtlLoader = new MTLLoader();
+  mtlLoader.load('enlarged-bed-obj/enlarged-bed.mtl', (mtl) => {
+    mtl.preload();
+   for (const material of Object.values(mtl.materials)) {
+     material.side = THREE.DoubleSide;
+   }
+    objLoader.setMaterials(mtl);
+    objLoader.load('enlarged-bed-obj/enlarged-bed.obj', (root) => {
+      root.position.y = -14;
+      root.position.x = 24;
+      root.position.z = -42;
+      scene.add(root);
+      const box = new THREE.Box3().setFromObject(root);
+  const boxSize = box.getSize(new THREE.Vector3()).length();
+  const boxCenter = box.getCenter(new THREE.Vector3());
+  console.log(boxSize);
+  console.log(boxCenter);
+    });
+  });
+
 
   renderer.render(scene, camera);
   requestAnimationFrame(render);
