@@ -7,6 +7,8 @@ let controls;
 let skyMaterials, SkyMaterial, cube1;
 let skyboxGeometry;
 let floor_cube, wall_left, wall_right, wall_back, wall_top;
+let window_frame;
+
 function main() {
   canvas = document.querySelector('#c');
   renderer = new THREE.WebGLRenderer({canvas, alpha: true,});
@@ -119,11 +121,28 @@ function main() {
   boxDepth = 0.5;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
   material = new THREE.MeshPhongMaterial({color: 0x44aa88});
+  material = new THREE.MeshPhysicalMaterial({  
+    roughness: 0.5,  
+    transmission: 1,  
+    thickness: 4,
+  });
   wall_back = new THREE.Mesh(geometry, material);
   wall_back.position.x = 2;
   wall_back.position.z = -62;
   wall_back.position.y = 9;
   scene.add(wall_back);
+
+  // making the window frame
+  boxWidth = 0.4;
+  boxHeight = 43;
+  boxDepth = 0.4;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+  window_frame = new THREE.Mesh(geometry, material);
+  window_frame.position.x = 4.5;
+  window_frame.position.z = -60;
+  window_frame.position.y = 9;
+  scene.add(window_frame);
 
   // making the top wall
   boxWidth = 45;
