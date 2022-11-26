@@ -25,6 +25,8 @@ let bed_panel;
 let tube_light1, tube_light2, fireplace_mesh;
 let color, intensity, width, height;
 let bulb_light_1, bulb_light_2, bulb_light_3, bulb_light_4;
+let fireplace_glow;
+
 function main() {
   canvas = document.querySelector('#c');
   renderer = new THREE.WebGLRenderer({canvas, alpha: true,});
@@ -322,7 +324,7 @@ function main() {
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshStandardMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb1 = new THREE.Mesh(geometry, material);
   bulb1.position.y = 22;
   bulb1.position.z = -30;
@@ -514,7 +516,7 @@ function main() {
   let tubeRadialSegments = 12;  // ui: radialSegments
   let tubularSegments = 12;  // ui: tubularSegments
   geometry = new THREE.TorusGeometry(tubeRadius1, tubeRadius2, tubeRadialSegments, tubularSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xf7e294});
+  material = new THREE.MeshPhongMaterial({color: 0xf7e294, emissive: 0xf5e889, emissiveIntensity: 0.35});
   tube_light1 = new THREE.Mesh(geometry, material);
   tube_light1.rotation.y = 1.5;
   tube_light1.position.x = 23;
@@ -526,7 +528,7 @@ function main() {
   tubeRadialSegments = 12;  // ui: radialSegments
   tubularSegments = 12;  // ui: tubularSegments
   geometry = new THREE.TorusGeometry(tubeRadius1, tubeRadius2, tubeRadialSegments, tubularSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xf7e294});
+  material = new THREE.MeshPhongMaterial({color: 0xf7e294, emissive: 0xf5e889, emissiveIntensity: 0.35});
   tube_light2 = new THREE.Mesh(geometry, material);
   tube_light2.rotation.y = 1.5;
   tube_light2.position.x = 23;
@@ -599,7 +601,7 @@ function main() {
   bulb_light_4.target.position.y = -10;
   bulb_light_4.target.position.z = -40;
   bulb_light_4.decay = 1.2;
-  bulb_light_4.angle = THREE.MathUtils.degToRad(15);;
+  bulb_light_4.angle = THREE.MathUtils.degToRad(15);
   scene.add(bulb_light_4);
   scene.add(bulb_light_4.target);
 
@@ -607,6 +609,23 @@ function main() {
   // let helper = new THREE.SpotLightHelper(bulb_light_2);
   // scene.add(helper);
 
+
+  // now to make the fire place more realisic, we will have to give a red glow inside it
+  color = 0xFF0000;
+  intensity = 100;
+  fireplace_glow = new THREE.SpotLight(color, intensity);
+  fireplace_glow.position.set(-18, -8, -30);
+  fireplace_glow.target.position.z = -77;
+  fireplace_glow.target.position.y = -20;
+  fireplace_glow.target.position.x = -11;
+  fireplace_glow.decay = 1.6;
+  fireplace_glow.angle = THREE.MathUtils.degToRad(50);
+  scene.add(fireplace_glow);
+  scene.add(fireplace_glow.target);
+
+  // let helper = new THREE.SpotLightHelper(fireplace_glow);
+  // scene.add(helper);
+  
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 }
