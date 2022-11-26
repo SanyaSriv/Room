@@ -26,6 +26,7 @@ let tube_light1, tube_light2, fireplace_mesh;
 let color, intensity, width, height;
 let bulb_light_1, bulb_light_2, bulb_light_3, bulb_light_4;
 let fireplace_glow;
+let table_point_light_1, table_point_light_2, table_point_light_3, table_point_light_4;
 
 function main() {
   canvas = document.querySelector('#c');
@@ -615,17 +616,174 @@ function main() {
   intensity = 100;
   fireplace_glow = new THREE.SpotLight(color, intensity);
   fireplace_glow.position.set(-18, -8, -30);
-  fireplace_glow.target.position.z = -77;
+  fireplace_glow.target.position.z = -50;
   fireplace_glow.target.position.y = -20;
   fireplace_glow.target.position.x = -11;
   fireplace_glow.decay = 1.6;
-  fireplace_glow.angle = THREE.MathUtils.degToRad(50);
+  fireplace_glow.angle = THREE.MathUtils.degToRad(45);
   scene.add(fireplace_glow);
   scene.add(fireplace_glow.target);
 
-  // let helper = new THREE.SpotLightHelper(fireplace_glow);
+  // making the table point light
+  color = 0xffffe0;
+  intensity = 10;
+  let light = new THREE.PointLight(color, intensity);
+  light.position.set(-18.5, -2.7, -22);
+  light.distance = 22;
+  scene.add(light);
+  // let helper = new THREE.PointLightHelper(light);
   // scene.add(helper);
-  
+
+  color = 0xffffe0;
+  intensity = 10;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-18.5, -2.7, -28);
+  light.distance = 22;
+  scene.add(light);
+  // helper = new THREE.PointLightHelper(light);
+  // scene.add(helper);
+
+  color = 0xffffe0;
+  intensity = 10;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-18.5, -2.7, -34);
+  light.distance = 22;
+  scene.add(light);
+  // helper = new THREE.PointLightHelper(light);
+  // scene.add(helper);
+
+  color = 0xffffe0;
+  intensity = 10;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-18.5, -2.7, -40);
+  light.distance = 22;
+  scene.add(light);
+  // helper = new THREE.PointLightHelper(light);
+  // scene.add(helper);
+
+  color = 0xffffe0;
+  intensity = 10;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-18.5, -2.7, -46);
+  light.distance = 22;
+  scene.add(light);
+  // helper = new THREE.PointLightHelper(light);
+  // scene.add(helper);
+
+  color = 0xffffe0;
+  intensity = 10;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-18.5, -2.7, -52);
+  light.distance = 22;
+  scene.add(light);
+
+  // for the tv
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 0.5, -42);
+  light.distance = 22;
+  scene.add(light);
+
+  // we need to use point light for the lighting behind the table;
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 0.5, -38);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 0.5, -34);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 0.5, -30);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 3.5, -30);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 6.5, -30);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 10.0, -30);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 10.0, -34);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 10.0, -38);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 10.0, -42);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 10.0, -46);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 10.0, -46);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 6.5, -46);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 3.5, -46);
+  light.distance = 22;
+  scene.add(light);
+
+  color = 0xffffe0;
+  intensity = 4;
+  light = new THREE.PointLight(color, intensity);
+  light.position.set(-19, 0.5, -46);
+  light.distance = 22;
+  scene.add(light);
+
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 }
