@@ -3,6 +3,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
 import {OBJLoader} from "/Room/three.js-master/examples/jsm/loaders/OBJLoader.js";
 import {MTLLoader} from '/Room/three.js-master/examples/jsm/loaders/MTLLoader.js';
+import {RectAreaLightUniformsLib} from '/Room/three.js-master/examples/jsm/lights/RectAreaLightUniformsLib.js';
+import {RectAreaLightHelper} from '/Room/three.js-master/examples/jsm/helpers/RectAreaLightHelper.js';
+import {GUI} from '/Room/three.js-master/examples/jsm/libs/lil-gui.module.min.js';
 let canvas, renderer, fov, aspect, near, far, camera, scene, boxWidth;
 let boxDepth, boxHeight, geometry, material,cube;
 let background;
@@ -20,10 +23,13 @@ let objLoader, mtlLoader;
 let table, table2, table3, table4;
 let bed_panel;
 let tube_light1, tube_light2, fireplace_mesh;
-
+let color, intensity, width, height;
+let bulb_light_1, bulb_light_2, bulb_light_3, bulb_light_4;
 function main() {
   canvas = document.querySelector('#c');
   renderer = new THREE.WebGLRenderer({canvas, alpha: true,});
+  renderer.physicallyCorrectLights = true;
+  RectAreaLightUniformsLib.init();
 
   fov = 75;
   aspect = 2;  // the canvas default
@@ -109,7 +115,7 @@ function main() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(4, 4);
-  material = new THREE.MeshPhongMaterial({map: texture,});
+  material = new THREE.MeshPhongMaterial({map: texture,}); // changed it from phong
   wall_left = new THREE.Mesh(geometry, material);
   wall_left.position.x = -20;
   wall_left.position.z = -40;
@@ -227,7 +233,7 @@ function main() {
   // Making the bed side tables
   let radiusTop = 2;  // ui: radiusTop
   let radiusBottom = 2;  // ui: radiusBottom
-  let height = 4;  // ui: height
+  height = 4;  // ui: height
   let radialSegments = 8;  // ui: radialSegments
   geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
   material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
@@ -316,7 +322,7 @@ function main() {
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xf2c933});
+  material = new THREE.MeshStandardMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb1 = new THREE.Mesh(geometry, material);
   bulb1.position.y = 22;
   bulb1.position.z = -30;
@@ -337,7 +343,7 @@ function main() {
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xf2c933});
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb3 = new THREE.Mesh(geometry, material);
   bulb3.position.y = 20;
   bulb3.position.z = -35;
@@ -347,7 +353,7 @@ function main() {
   radiusTop = 1.1;
   detail = 0;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
+  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb4 = new THREE.Mesh(geometry, material);
   bulb4.position.y = 20;
   bulb4.position.z = -35;
@@ -358,7 +364,7 @@ function main() {
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xf2c933});
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb5 = new THREE.Mesh(geometry, material);
   bulb5.position.y = 25;
   bulb5.position.z = -35.5;
@@ -379,7 +385,7 @@ function main() {
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xf2c933});
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb7 = new THREE.Mesh(geometry, material);
   bulb7.position.y = 27;
   bulb7.position.z = -30;
@@ -542,6 +548,64 @@ function main() {
   fireplace_mesh.position.z = -37;
   fireplace_mesh.position.y = -8;
   scene.add(fireplace_mesh);
+  // trying to use a spotlight
+  // it seems like rotation in spotlight does not exisr
+
+  // light for bulb 1 (chandelier)
+  color = 0xebd110;
+  intensity = 30;
+  bulb_light_1 = new THREE.SpotLight(color, intensity);
+  bulb_light_1.position.set(7, 22, -30);
+  bulb_light_1.target.position.x = 6;
+  bulb_light_1.target.position.y = -10;
+  bulb_light_1.target.position.z = -30;
+  bulb_light_1.decay = 1.2;
+  bulb_light_1.angle = THREE.MathUtils.degToRad(20);;
+  scene.add(bulb_light_1);
+  scene.add(bulb_light_1.target);
+
+  // light for bulb 2 (chandelier)
+  color = 0xebd110;
+  intensity = 40;
+  bulb_light_2 = new THREE.SpotLight(color, intensity);
+  bulb_light_2.position.set(-6.5, 20, -35);
+  bulb_light_2.target.position.x = -10;
+  bulb_light_2.target.position.y = -15;
+  bulb_light_2.target.position.z = -35;
+  bulb_light_2.decay = 1.2;
+  bulb_light_2.angle = THREE.MathUtils.degToRad(20);;
+  scene.add(bulb_light_2);
+  scene.add(bulb_light_2.target);
+
+  // light for bulb 3 (chandelier)
+  color = 0xebd110;
+  intensity = 40;
+  bulb_light_3 = new THREE.SpotLight(color, intensity);
+  bulb_light_3.position.set(-6.5, 25, -35.5);
+  bulb_light_3.target.position.x = -10;
+  bulb_light_3.target.position.y = -15;
+  bulb_light_3.target.position.z = -15;
+  bulb_light_3.decay = 1.2;
+  bulb_light_3.angle = THREE.MathUtils.degToRad(20);;
+  scene.add(bulb_light_3);
+  scene.add(bulb_light_3.target);
+
+  // light for bulb 4 (chandelier)
+  color = 0xebd110;
+  intensity = 30;
+  bulb_light_4 = new THREE.SpotLight(color, intensity);
+  bulb_light_4.position.set(7, 27, -30);
+  bulb_light_4.target.position.x = 6;
+  bulb_light_4.target.position.y = -10;
+  bulb_light_4.target.position.z = -40;
+  bulb_light_4.decay = 1.2;
+  bulb_light_4.angle = THREE.MathUtils.degToRad(15);;
+  scene.add(bulb_light_4);
+  scene.add(bulb_light_4.target);
+
+  // this draws the outer boundry and stuff
+  // let helper = new THREE.SpotLightHelper(bulb_light_2);
+  // scene.add(helper);
 
   renderer.render(scene, camera);
   requestAnimationFrame(render);
