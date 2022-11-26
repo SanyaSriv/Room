@@ -60,6 +60,14 @@ function main() {
     scene.add(light);
   }
 
+  // trying to add fog in here
+  {
+    const near = 58;
+    const far = 88;
+    const color = 'white';
+    scene.fog = new THREE.Fog(color, near, far);
+    scene.background = new THREE.Color(color);
+  }
   {
     const loader = new THREE.TextureLoader();
     // const texture = loader.load([
@@ -106,6 +114,7 @@ function main() {
   floor_cube.position.x = 2;
   floor_cube.position.z = -40;
   floor_cube.position.y = -12;
+  floor_cube.fog = false;
   scene.add(floor_cube);
 
   // making the first wall
@@ -123,6 +132,7 @@ function main() {
   wall_left.position.x = -20;
   wall_left.position.z = -40;
   wall_left.position.y = 10;
+  wall_left.fog = false;
   scene.add(wall_left);
 
   // making the right wall
@@ -140,6 +150,7 @@ function main() {
   wall_right.position.x = 24.5;
   wall_right.position.z = -40;
   wall_right.position.y = 10;
+  wall_right.fog = false;
   scene.add(wall_right);
 
   // making the back wall: we want this wall to be a window in the future
@@ -149,7 +160,7 @@ function main() {
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
   material = new THREE.MeshPhongMaterial({color: 0x44aa88});
   material = new THREE.MeshPhysicalMaterial({  
-    roughness: 0.5,  
+    roughness: 0,  
     transmission: 1,  
     thickness: 4,
   });
@@ -239,7 +250,7 @@ function main() {
   height = 4;  // ui: height
   let radialSegments = 8;  // ui: radialSegments
   geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+  material = new THREE.MeshPhongMaterial({color: 0xacacad});
   bedside_table_left = new THREE.Mesh(geometry, material);
   bedside_table_left.position.x = 18; // this is left-right
   bedside_table_left.position.y = -9; // this is the depth
@@ -251,7 +262,7 @@ function main() {
   height = 4;  // ui: height
   radialSegments = 8;  // ui: radialSegments
   geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+  material = new THREE.MeshPhongMaterial({color: 0xacacad});
   bedside_table_right = new THREE.Mesh(geometry, material);
   bedside_table_right.position.x = 18; // this is left-right
   bedside_table_right.position.y = -9; // this is the depth
@@ -790,6 +801,26 @@ function main() {
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 }
+
+  // making the curtains
+  objLoader = new OBJLoader();
+  mtlLoader = new MTLLoader();
+  mtlLoader.load('curtain-single-obj/curtain-single.mtl', (mtl) => {
+    mtl.preload();
+   for (const material of Object.values(mtl.materials)) {
+     material.side = THREE.DoubleSide;
+   }
+    objLoader.setMaterials(mtl);
+    objLoader.load('curtain-single-obj/curtain-single.obj', (root) => {
+      root.position.y = 8;
+      root.position.x = -20;
+      root.position.z = -55;
+      scene.add(root);
+      const box = new THREE.Box3().setFromObject(root);
+  const boxSize = box.getSize(new THREE.Vector3()).length();
+  const boxCenter = box.getCenter(new THREE.Vector3());
+    });
+  });
 
 function render(time) {
     // time *= 0.001;  // convert time to seconds
