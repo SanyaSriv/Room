@@ -556,55 +556,58 @@ function main() {
 
   // light for bulb 1 (chandelier)
   color = 0xebd110;
-  intensity = 30;
-  bulb_light_1 = new THREE.SpotLight(color, intensity);
+  intensity = 4;
+  // bulb_light_1 = new THREE.SpotLight(color, intensity);
+  bulb_light_1 = new THREE.PointLight(color, intensity);
   bulb_light_1.position.set(7, 22, -30);
-  bulb_light_1.target.position.x = 6;
-  bulb_light_1.target.position.y = -10;
-  bulb_light_1.target.position.z = -30;
-  bulb_light_1.decay = 1.2;
-  bulb_light_1.angle = THREE.MathUtils.degToRad(20);;
+  // bulb_light_1.target.position.x = 6;
+  // bulb_light_1.target.position.y = -10;
+  // bulb_light_1.target.position.z = -30;
+  // bulb_light_1.decay = 1.2;
+  // bulb_light_1.angle = THREE.MathUtils.degToRad(20);;
   scene.add(bulb_light_1);
-  scene.add(bulb_light_1.target);
+  // scene.add(bulb_light_1.target);
 
   // light for bulb 2 (chandelier)
   color = 0xebd110;
-  intensity = 40;
-  bulb_light_2 = new THREE.SpotLight(color, intensity);
+  intensity = 2;
+  bulb_light_2 = new THREE.PointLight(color, intensity);
   bulb_light_2.position.set(-6.5, 20, -35);
-  bulb_light_2.target.position.x = -10;
-  bulb_light_2.target.position.y = -15;
-  bulb_light_2.target.position.z = -35;
-  bulb_light_2.decay = 1.2;
-  bulb_light_2.angle = THREE.MathUtils.degToRad(20);;
+  // bulb_light_2.target.position.x = -10;
+  // bulb_light_2.target.position.y = -15;
+  // bulb_light_2.target.position.z = -35;
+  // bulb_light_2.decay = 1.2;
+  // bulb_light_2.angle = THREE.MathUtils.degToRad(20);;
   scene.add(bulb_light_2);
-  scene.add(bulb_light_2.target);
+  // scene.add(bulb_light_2.target);
 
   // light for bulb 3 (chandelier)
   color = 0xebd110;
-  intensity = 40;
-  bulb_light_3 = new THREE.SpotLight(color, intensity);
+  intensity = 4;
+  // bulb_light_3 = new THREE.SpotLight(color, intensity);
+  bulb_light_3 = new THREE.PointLight(color, intensity);
   bulb_light_3.position.set(-6.5, 25, -35.5);
-  bulb_light_3.target.position.x = -10;
-  bulb_light_3.target.position.y = -15;
-  bulb_light_3.target.position.z = -15;
-  bulb_light_3.decay = 1.2;
-  bulb_light_3.angle = THREE.MathUtils.degToRad(20);;
+  // bulb_light_3.target.position.x = -10;
+  // bulb_light_3.target.position.y = -15;
+  // bulb_light_3.target.position.z = -15;
+  // bulb_light_3.decay = 1.2;
+  // bulb_light_3.angle = THREE.MathUtils.degToRad(20);;
   scene.add(bulb_light_3);
-  scene.add(bulb_light_3.target);
+  // scene.add(bulb_light_3.target);
 
   // light for bulb 4 (chandelier)
   color = 0xebd110;
-  intensity = 30;
-  bulb_light_4 = new THREE.SpotLight(color, intensity);
+  intensity = 6;
+  // bulb_light_4 = new THREE.SpotLight(color, intensity);
+  bulb_light_4 = new THREE.PointLight(color, intensity);
   bulb_light_4.position.set(7, 27, -30);
-  bulb_light_4.target.position.x = 6;
-  bulb_light_4.target.position.y = -10;
-  bulb_light_4.target.position.z = -40;
-  bulb_light_4.decay = 1.2;
-  bulb_light_4.angle = THREE.MathUtils.degToRad(15);
+  // bulb_light_4.target.position.x = 6;
+  // bulb_light_4.target.position.y = -10;
+  // bulb_light_4.target.position.z = -40;
+  // bulb_light_4.decay = 1.2;
+  // bulb_light_4.angle = THREE.MathUtils.degToRad(15);
   scene.add(bulb_light_4);
-  scene.add(bulb_light_4.target);
+  // scene.add(bulb_light_4.target);
 
   // this draws the outer boundry and stuff
   // let helper = new THREE.SpotLightHelper(bulb_light_2);
