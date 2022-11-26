@@ -616,7 +616,7 @@ function main() {
 
   // now to make the fire place more realisic, we will have to give a red glow inside it
   color = 0xFF0000;
-  intensity = 100;
+  intensity = 110;
   fireplace_glow = new THREE.SpotLight(color, intensity);
   fireplace_glow.position.set(-18, -8, -30);
   fireplace_glow.target.position.z = -50;
