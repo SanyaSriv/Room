@@ -309,6 +309,27 @@ function main() {
     });
   });
 
+  // objLoader = new OBJLoader();
+  // mtlLoader = new MTLLoader();
+  // mtlLoader.load('indoor plant_02_obj/indoor plant_02.mtl', (mtl) => {
+  //   mtl.preload();
+  //  for (const material of Object.values(mtl.materials)) {
+  //    material.side = THREE.DoubleSide;
+  //  }
+  //   objLoader.setMaterials(mtl);
+  //   objLoader.load('indoor plant_02_obj/indoor plant_02.obj', (root) => {
+  //     root.position.y = -14;
+  //     root.position.x = 24;
+  //     root.position.z = -42;
+  //     scene.add(root);
+  //     const box = new THREE.Box3().setFromObject(root);
+  // const boxSize = box.getSize(new THREE.Vector3()).length();
+  // const boxCenter = box.getCenter(new THREE.Vector3());
+  // console.log(boxSize);
+  // console.log(boxCenter);
+  //   });
+  // });
+
   // adding the chandelier (this might contain animation too)
   // first part of the chandelier
   radiusTop = 0.1;  // ui: radiusTop
@@ -646,7 +667,7 @@ function main() {
   // scene.add(helper);
 
 color = 0xffb6c1;
-intensity = 9;
+intensity = 25;
 let lamp_light = new THREE.SpotLight(color, intensity);
 lamp_light.angle = THREE.MathUtils.degToRad(42);
 lamp_light.position.set(20, 0.3, -27.8);
@@ -655,7 +676,7 @@ scene.add(lamp_light);
 scene.add(lamp_light.target);
 
 color =0xffb6c1;
-intensity = 9;
+intensity = 25;
 lamp_light = new THREE.SpotLight(color, intensity);
 lamp_light.angle = THREE.MathUtils.degToRad(42);
 lamp_light.position.set(20, 0.3, -51.2);
@@ -692,7 +713,7 @@ scene.add(lamp_light.target);
   color = 0xf7f7c1;
   color = 0xf2f2a7;
   // color = 0xFFFFFF;
-  intensity = 4;
+  intensity = 50;
   // bulb_light_1 = new THREE.SpotLight(color, intensity);
   bulb_light_1 = new THREE.PointLight(color, intensity);
   bulb_light_1.position.set(7, 22, -30);
@@ -708,7 +729,7 @@ scene.add(lamp_light.target);
   color = 0xf7f7c1;
   color = 0xf2f2a7;
   // color = 0xFFFFFF;
-  intensity = 2;
+  intensity = 50;
   bulb_light_2 = new THREE.PointLight(color, intensity);
   bulb_light_2.position.set(-6.5, 20, -35);
   // bulb_light_2.target.position.x = -10;
@@ -722,7 +743,7 @@ scene.add(lamp_light.target);
   // light for bulb 3 (chandelier)
   color = 0xf7f7c1;
   color = 0xf2f2a7;
-  intensity = 4;
+  intensity = 30;
   // bulb_light_3 = new THREE.SpotLight(color, intensity);
   bulb_light_3 = new THREE.PointLight(color, intensity);
   bulb_light_3.position.set(-6.5, 25, -35.5);
@@ -737,7 +758,7 @@ scene.add(lamp_light.target);
   // light for bulb 4 (chandelier)
   color = 0xf7f7c1;
   color = 0xf2f2a7;
-  intensity = 6;
+  intensity = 30;
   // bulb_light_4 = new THREE.SpotLight(color, intensity);
   bulb_light_4 = new THREE.PointLight(color, intensity);
   bulb_light_4.position.set(7, 27, -30);
