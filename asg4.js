@@ -61,13 +61,13 @@ function main() {
   }
 
   // trying to add fog in here
-  {
-    const near = 58;
-    const far = 88;
-    const color = 'white';
-    scene.fog = new THREE.Fog(color, near, far);
-    scene.background = new THREE.Color(color);
-  }
+  // {
+  //   const near = 58;
+  //   const far = 88;
+  //   const color = 'white';
+  //   scene.fog = new THREE.Fog(color, near, far);
+  //   scene.background = new THREE.Color(color);
+  // }
   {
     const loader = new THREE.TextureLoader();
     // const texture = loader.load([
@@ -117,6 +117,22 @@ function main() {
   floor_cube.fog = false;
   scene.add(floor_cube);
 
+  // trying to make the carpet
+  boxWidth = 30;
+  boxHeight = 0.1;
+  boxDepth = 30;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  loader = new THREE.TextureLoader();
+  texture = loader.load('Carpet0021_1_350.jpeg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(6, 6);
+  material = new THREE.MeshPhongMaterial({map: texture});
+  let carpet = new THREE.Mesh(geometry, material);
+  carpet.position.x = 10;
+  carpet.position.z = -40;
+  carpet.position.y = -11.6;
+  scene.add(carpet);
   // making the first wall
   boxWidth = 0.5;
   boxHeight = 45;
@@ -142,10 +158,12 @@ function main() {
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
   loader = new THREE.TextureLoader();
   texture = loader.load('wall_tile.jpeg');
+  // texture = loader.load('shopping.jpg');
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(4, 4);
-  material = new THREE.MeshPhongMaterial({map: texture,});
+  // texture.repeat.set(10, 10);
+  material = new THREE.MeshPhongMaterial({map: texture});
   wall_right = new THREE.Mesh(geometry, material);
   wall_right.position.x = 24.5;
   wall_right.position.z = -40;
@@ -272,13 +290,13 @@ function main() {
   // making the bed
   objLoader = new OBJLoader();
   mtlLoader = new MTLLoader();
-  mtlLoader.load('enlarged-bed-obj (3)/enlarged-bed.mtl', (mtl) => {
+  mtlLoader.load('enlarged-bed-obj (7)/enlarged-bed.mtl', (mtl) => {
     mtl.preload();
    for (const material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
    }
     objLoader.setMaterials(mtl);
-    objLoader.load('enlarged-bed-obj (3)/enlarged-bed.obj', (root) => {
+    objLoader.load('enlarged-bed-obj (7)/enlarged-bed.obj', (root) => {
       root.position.y = -14;
       root.position.x = 24;
       root.position.z = -42;
@@ -523,29 +541,134 @@ function main() {
   scene.add(bed_panel);
   
   // drawing the bed side lights
-  let tubeRadius1 = 1;  // ui: radius
-  let tubeRadius2 = 0.4;  // ui: tubeRadius
-  let tubeRadialSegments = 12;  // ui: radialSegments
-  let tubularSegments = 12;  // ui: tubularSegments
-  geometry = new THREE.TorusGeometry(tubeRadius1, tubeRadius2, tubeRadialSegments, tubularSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xf7e294, emissive: 0xf5e889, emissiveIntensity: 0.35});
-  tube_light1 = new THREE.Mesh(geometry, material);
-  tube_light1.rotation.y = 1.5;
-  tube_light1.position.x = 23;
-  tube_light1.position.z = -30;
-  scene.add(tube_light1);
+  // let tubeRadius1 = 1;  // ui: radius
+  // let tubeRadius2 = 0.4;  // ui: tubeRadius
+  // let tubeRadialSegments = 12;  // ui: radialSegments
+  // let tubularSegments = 12;  // ui: tubularSegments
+  // geometry = new THREE.TorusGeometry(tubeRadius1, tubeRadius2, tubeRadialSegments, tubularSegments);
+  // material = new THREE.MeshPhongMaterial({color: 0xf7e294, emissive: 0xf5e889, emissiveIntensity: 0.35});
+  // tube_light1 = new THREE.Mesh(geometry, material);
+  // tube_light1.rotation.y = 1.5;
+  // tube_light1.position.x = 23;
+  // tube_light1.position.z = -30;
+  // scene.add(tube_light1);
 
-  tubeRadius1 = 1;  // ui: radius
-  tubeRadius2 = 0.4;  // ui: tubeRadius
-  tubeRadialSegments = 12;  // ui: radialSegments
-  tubularSegments = 12;  // ui: tubularSegments
-  geometry = new THREE.TorusGeometry(tubeRadius1, tubeRadius2, tubeRadialSegments, tubularSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xf7e294, emissive: 0xf5e889, emissiveIntensity: 0.35});
-  tube_light2 = new THREE.Mesh(geometry, material);
-  tube_light2.rotation.y = 1.5;
-  tube_light2.position.x = 23;
-  tube_light2.position.z = -50;
-  scene.add(tube_light2);
+// this thing is not working
+  let points = [];
+  for (let i = 0; i < 10; ++i) {
+    points.push(new THREE.Vector2(Math.sin(i * 0.03) * 1.5 + 1.5, (i - 5) * .3));
+  }
+  geometry = new THREE.LatheGeometry(points, 20, 1.5 * Math.PI, 4 * Math.PI);
+  material = new THREE.MeshPhongMaterial({color: 0x000000, shininess: 90});
+  let light_bed = new THREE.Mesh(geometry, material);
+  light_bed.rotation.x = THREE.MathUtils.degToRad(180);
+  light_bed.position.x = 21;
+  light_bed.position.z = -29;
+  scene.add(light_bed);
+
+  // tubeRadius1 = 1;  // ui: radius
+  // tubeRadius2 = 0.4;  // ui: tubeRadius
+  // tubeRadialSegments = 12;  // ui: radialSegments
+  // tubularSegments = 12;  // ui: tubularSegments
+  // geometry = new THREE.TorusGeometry(tubeRadius1, tubeRadius2, tubeRadialSegments, tubularSegments);
+  // material = new THREE.MeshPhongMaterial({color: 0xf7e294, emissive: 0xf5e889, emissiveIntensity: 0.35});
+  // tube_light2 = new THREE.Mesh(geometry, material);
+  // tube_light2.rotation.y = 1.5;
+  // tube_light2.position.x = 23;
+  // tube_light2.position.z = -50;
+  // scene.add(tube_light2);
+
+  points = [];
+  for (let i = 0; i < 10; ++i) {
+    points.push(new THREE.Vector2(Math.sin(i * 0.03) * 1.5 + 1.5, (i - 5) * .3));
+  }
+  geometry = new THREE.LatheGeometry(points, 20, 1.5 * Math.PI, 4 * Math.PI);
+  material = new THREE.MeshPhongMaterial({color: 0x000000, shininess: 90});
+  light_bed = new THREE.Mesh(geometry, material);
+  light_bed.rotation.x = THREE.MathUtils.degToRad(180);
+  light_bed.position.x = 22;
+  light_bed.position.z = -49;
+  scene.add(light_bed);
+
+  boxWidth = 0.3;
+  boxHeight = 2.2;
+  boxDepth = 0.1;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90});
+  let rod = new THREE.Mesh(geometry, material);
+  rod.position.y = -1.3;
+  rod.position.x = 22;
+  rod.position.z = -29;
+  scene.add(rod);
+
+  boxWidth = 0.3;
+  boxHeight = 2.2;
+  boxDepth = 0.1;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90});
+  rod = new THREE.Mesh(geometry, material);
+  rod.position.y = -1.3;
+  rod.position.x = 22;
+  rod.position.z = -49;
+  scene.add(rod);
+
+  boxWidth = 1.5;
+  boxHeight = 0.3;
+  boxDepth = 0.3;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90});
+  rod = new THREE.Mesh(geometry, material);
+  rod.position.y = -2.2;
+  rod.position.x = 22.6;
+  rod.position.z = -29;
+  scene.add(rod);
+
+  boxWidth = 1.5;
+  boxHeight = 0.3;
+  boxDepth = 0.3;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90});
+  rod = new THREE.Mesh(geometry, material);
+  rod.position.y = -2.2;
+  rod.position.x = 22.6;
+  rod.position.z = -49;
+  scene.add(rod);
+
+  //now going to make bed side lights
+  // color = 0xffffe0;
+  // color = 0xFFFFFF;
+  // intensity = 8;
+  // let lamp_light = new THREE.PointLight(color, intensity);
+  // lamp_light.position.set(21.5, -1, -29);
+  // lamp_light.distance = 30;
+  // scene.add(lamp_light);
+  // let helper = new THREE.PointLightHelper(lamp_light);
+  // scene.add(helper);
+
+color = 0xffb6c1;
+intensity = 9;
+let lamp_light = new THREE.SpotLight(color, intensity);
+lamp_light.angle = THREE.MathUtils.degToRad(42);
+lamp_light.position.set(20, 0.3, -27.8);
+lamp_light.target.position.set(50, -58.38, -50);
+scene.add(lamp_light);
+scene.add(lamp_light.target);
+
+color =0xffb6c1;
+intensity = 9;
+lamp_light = new THREE.SpotLight(color, intensity);
+lamp_light.angle = THREE.MathUtils.degToRad(42);
+lamp_light.position.set(20, 0.3, -51.2);
+lamp_light.target.position.set(50, -58.38, -50);
+scene.add(lamp_light);
+scene.add(lamp_light.target);
+
+  // color = 0xffffe0;
+  // intensity = 4;
+  // light = new THREE.PointLight(color, intensity);
+  // light.position.set(-19, 6.5, -46);
+  // light.distance = 22;
+  // scene.add(light);
 
   // trying to create the electric fire place
   boxWidth = 0.4;
@@ -566,7 +689,9 @@ function main() {
   // it seems like rotation in spotlight does not exisr
 
   // light for bulb 1 (chandelier)
-  color = 0xebd110;
+  color = 0xf7f7c1;
+  color = 0xf2f2a7;
+  // color = 0xFFFFFF;
   intensity = 4;
   // bulb_light_1 = new THREE.SpotLight(color, intensity);
   bulb_light_1 = new THREE.PointLight(color, intensity);
@@ -580,7 +705,9 @@ function main() {
   // scene.add(bulb_light_1.target);
 
   // light for bulb 2 (chandelier)
-  color = 0xebd110;
+  color = 0xf7f7c1;
+  color = 0xf2f2a7;
+  // color = 0xFFFFFF;
   intensity = 2;
   bulb_light_2 = new THREE.PointLight(color, intensity);
   bulb_light_2.position.set(-6.5, 20, -35);
@@ -593,7 +720,8 @@ function main() {
   // scene.add(bulb_light_2.target);
 
   // light for bulb 3 (chandelier)
-  color = 0xebd110;
+  color = 0xf7f7c1;
+  color = 0xf2f2a7;
   intensity = 4;
   // bulb_light_3 = new THREE.SpotLight(color, intensity);
   bulb_light_3 = new THREE.PointLight(color, intensity);
@@ -607,7 +735,8 @@ function main() {
   // scene.add(bulb_light_3.target);
 
   // light for bulb 4 (chandelier)
-  color = 0xebd110;
+  color = 0xf7f7c1;
+  color = 0xf2f2a7;
   intensity = 6;
   // bulb_light_4 = new THREE.SpotLight(color, intensity);
   bulb_light_4 = new THREE.PointLight(color, intensity);

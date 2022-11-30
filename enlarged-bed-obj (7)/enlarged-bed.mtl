@@ -1,0 +1,11 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl alivar_arca_standard_mat_2__mtl_3
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.184314 0.207843 0.243137
+Ks 0.002000 0.002000 0.002000
+Ni 1.000000
+d 1.000000
+illum 2
