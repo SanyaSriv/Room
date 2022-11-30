@@ -445,7 +445,7 @@ function main() {
   bulb1Orbit.position.x = 5;
   chandelier3.add(bulb1Orbit);
 
-  // bulb1
+  // bulb1 - Rotation Established
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
@@ -472,34 +472,49 @@ function main() {
   bulb1Orbit.add(bulb2);
   // scene.add(bulb2);
   
+
+  // bulb2
+
   // bulb2 orbit
   let bulb2Orbit = new THREE.Object3D();
   bulb2Orbit.position.x = 5;
-  chandelier3.add(bulb2Orbit);
+  chandelier2.add(bulb2Orbit);
 
-  // bulb2
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
   material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb3 = new THREE.Mesh(geometry, material);
-  bulb3.position.y = 20;
-  bulb3.position.z = -35;
-  bulb3.position.x = -6.5;
+  // bulb3.position.y = 20;
+  // bulb3.position.z = -35;
+  // bulb3.position.x = -6.5;
+  bulb3.position.y = 7.54;
+  bulb3.position.z = 0.66;
+  bulb3.position.x = -5.24;
   // bulb2Orbit
-  scene.add(bulb3);
+  bulb2Orbit.add(bulb3);
+  // scene.add(bulb3);
+
+  const gui = new GUI();
+  gui.add(bulb3.position, 'x', -10, 10, 0.01);
+  gui.add(bulb3.position, 'y', -10, 10, 0.01);
+  gui.add(bulb3.position, 'z', -10, 10, 0.01);
 
   radiusTop = 1.1;
   detail = 0;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
   material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb4 = new THREE.Mesh(geometry, material);
-  bulb4.position.y = 20;
-  bulb4.position.z = -35;
-  bulb4.position.x = -6.5;
-  scene.add(bulb4);
+  // bulb4.position.y = 20;
+  // bulb4.position.z = -35;
+  // bulb4.position.x = -6.5;
+  bulb4.position.y = 7.54;
+  bulb4.position.z = 0.66;
+  bulb4.position.x = -5.24;
+  bulb2Orbit.add(bulb4);
+  // scene.add(bulb4);
 
-  // bulb3
+  // bulb3 - Rotation established
 
   // bulb3 Orbit
   let bulb3Orbit = new THREE.Object3D();
@@ -519,11 +534,6 @@ function main() {
   bulb5.position.x = -4.7;
   // scene.add(bulb5);
   bulb3Orbit.add(bulb5);
-
-  const gui = new GUI();
-  gui.add(bulb5.position, 'x', -10, 10, 0.01);
-  gui.add(bulb5.position, 'y', -10, 10, 0.01);
-  gui.add(bulb5.position, 'z', -10, 10, 0.01);
 
   radiusTop = 1.1;
   detail = 0;
@@ -1119,7 +1129,7 @@ function render(time) {
     // cube.rotation.y = time;
 
     // trying to add animation in the top chandelier
-    // chandelier2.rotation.x = 0.5 * time; 
+    chandelier2.rotation.x = 0.5 * time; 
     chandelier3.rotation.z = 0.5 * time;
     // set the position of the bulbs
     // bulb1.position.x += Math.sin(time * 0.05);
