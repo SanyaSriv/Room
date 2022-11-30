@@ -27,7 +27,68 @@ let color, intensity, width, height;
 let bulb_light_1, bulb_light_2, bulb_light_3, bulb_light_4;
 let fireplace_glow;
 let table_point_light_1, table_point_light_2, table_point_light_3, table_point_light_4;
+let pickPosition = {x: 0, y: 0};
 
+class PickObject {
+  constructor() {
+    this.raycaster = new THREE.Raycaster();
+    this.pickedObject = null;
+    this.pickedObjectSavedColor = 0;
+  }
+  pick(normalizedPosition, scene, camera, time) {
+    if (this.pickedObject) {
+      this.pickedObject.material.emissive.setHex(this.pickedObjectSavedColor);
+      this.pickedObject = undefined;
+    }
+    this.raycaster.setFromCamera(normalizedPosition, camera);
+    const intersectedObjects = this.raycaster.intersectObjects(scene.children);
+    if (intersectedObjects.length) {
+      // pick the first object. It's the closest one
+      this.pickedObject = intersectedObjects[0].object;
+      // save its color
+      this.pickedObjectSavedColor = this.pickedObject.material.emissive.getHex();
+      // set its emissive color to flashing red/yellow
+      this.pickedObject.material.emissive.setHex((time * 8) % 2 > 1 ? 0xFFFF00 : 0xFF0000);
+    }
+  }
+}
+
+function getCanvasRelativePosition(event) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: (event.clientX - rect.left) * canvas.width  / rect.width,
+    y: (event.clientY - rect.top ) * canvas.height / rect.height,
+  };
+}
+
+function setPickPosition(event) {
+  let position = getCanvasRelativePosition(event);
+  pickPosition.x = (position.x / canvas.width ) *  2 - 1;
+  pickPosition.y = (position.y / canvas.height) * -2 + 1;
+}
+
+function clearPickPosition(){
+  pickPosition.x = -100000;
+  pickPosition.y = -100000;
+}
+
+function eventListenerFunction(){
+  // window.addEventListener('mousemove', setPickPosition);
+  // window.addEventListener('mouseout', clearPickPosition);
+  // window.addEventListener('mouseleave', clearPickPosition);
+
+  // window.addEventListener('touchstart', (event) => {
+  //   // prevent the window from scrolling
+  //   event.preventDefault();
+  //   setPickPosition(event.touches[0]);
+  // }, {passive: false});
+
+  // window.addEventListener('touchmove', (event) => {
+  //   setPickPosition(event.touches[0]);
+  // });
+
+  // window.addEventListener('touchend', clearPickPosition);
+}
 function main() {
   canvas = document.querySelector('#c');
   renderer = new THREE.WebGLRenderer({canvas, alpha: true,});
@@ -44,6 +105,9 @@ function main() {
   controls.target.set(0, 0, 0);
   controls.update();
   camera.position.z = 8;
+
+  // clearPickPosition();
+  // eventListenerFunction();
 
   scene = new THREE.Scene();
   {
@@ -304,6 +368,11 @@ function main() {
       const box = new THREE.Box3().setFromObject(root);
   const boxSize = box.getSize(new THREE.Vector3()).length();
   const boxCenter = box.getCenter(new THREE.Vector3());
+  // frameArea(boxSize * 0.8, boxSize, boxCenter, camera);
+  //     // update the Trackball controls to handle the new size
+  //     controls.maxDistance = boxSize * 10;
+  //     controls.target.copy(boxCenter);
+  //     controls.update();
   console.log(boxSize);
   console.log(boxCenter);
     });
@@ -371,16 +440,31 @@ function main() {
   chandelier3.rotation.x = -20;
   scene.add(chandelier3);
 
+  // bulb orbit
+  const bulb1Orbit = new THREE.Object3D();
+  bulb1Orbit.position.x = 5;
+  chandelier3.add(bulb1Orbit);
+
   // bulb1
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
   material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb1 = new THREE.Mesh(geometry, material);
-  bulb1.position.y = 22;
-  bulb1.position.z = -30;
-  bulb1.position.x = 7;
-  scene.add(bulb1);
+  // bulb1.position.y = 22;
+  // bulb1.position.z = -30;
+  // bulb1.position.x = 7;
+  bulb1.position.y = 7.7;
+  bulb1.position.z = -0.08;
+  bulb1.position.x = -5.24;
+  // chandelier2.add(bulb1);
+  bulb1Orbit.add(bulb1);
+  // scene.add(bulb1);
+
+  const gui = new GUI();
+  gui.add(bulb1.position, 'x', -10, 10, 0.01);
+  gui.add(bulb1.position, 'y', -10, 10, 0.01);
+  gui.add(bulb1.position, 'z', -10, 10, 0.01);
 
   radiusTop = 1.1;
   detail = 0;
@@ -472,10 +556,16 @@ function main() {
       root.position.z = -38;
       scene.add(root);
       const box = new THREE.Box3().setFromObject(root);
-  const boxSize = box.getSize(new THREE.Vector3()).length();
-  const boxCenter = box.getCenter(new THREE.Vector3());
-  console.log(boxSize);
-  console.log(boxCenter);
+      const boxSize = box.getSize(new THREE.Vector3()).length();
+      const boxCenter = box.getCenter(new THREE.Vector3());
+      // adding these extra things
+      // frameArea(boxSize * 0.8, boxSize, boxCenter, camera);
+      // // update the Trackball controls to handle the new size
+      // controls.maxDistance = boxSize * 10;
+      // controls.target.copy(boxCenter);
+      // controls.update();
+      console.log(boxSize);
+      console.log(boxCenter);
     });
   });
 
@@ -948,6 +1038,25 @@ scene.add(lamp_light.target);
   light.distance = 22;
   scene.add(light);
 
+  // objLoader = new OBJLoader();
+  // mtlLoader = new MTLLoader();
+  // mtlLoader.load('tree-05-obj/tree-05.mtl', (mtl) => {
+  //   mtl.preload();
+  //  for (const material of Object.values(mtl.materials)) {
+  //    material.side = THREE.DoubleSide;
+  //  }
+  //   objLoader.setMaterials(mtl);
+  //   objLoader.load('tree-05-obj/tree-05.obj', (root) => {
+  //     root.position.y = -40;
+  //     root.position.x = -200;
+  //     root.position.z = -400;
+  //     scene.add(root);
+  //     const box = new THREE.Box3().setFromObject(root);
+  // const boxSize = box.getSize(new THREE.Vector3()).length();
+  // const boxCenter = box.getCenter(new THREE.Vector3());
+  //   });
+  // });
+  
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 }
@@ -972,8 +1081,11 @@ scene.add(lamp_light.target);
     });
   });
 
+
 function render(time) {
-    // time *= 0.001;  // convert time to seconds
+    time *= 0.001;  // convert time to seconds
+    // let pickHelper = new PickObject();
+    // pickHelper.pick(pickPosition, scene, camera, time);
     if (resizeRendererToDisplaySize(renderer)) {
         canvas = renderer.domElement;
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
@@ -984,6 +1096,13 @@ function render(time) {
     camera.updateProjectionMatrix();
     // cube.rotation.x = time;
     // cube.rotation.y = time;
+
+    // trying to add animation in the top chandelier
+    chandelier2.rotation.x = 0.5 * time; 
+    chandelier3.rotation.z = 0.5 * time;
+    // set the position of the bulbs
+    // bulb1.position.x += Math.sin(time * 0.05);
+    // bulb1.position.z += 0.1 * Math.cos(time);f
 
     renderer.render(scene, camera);
     requestAnimationFrame(render);
