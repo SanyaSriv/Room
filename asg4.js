@@ -440,7 +440,7 @@ function main() {
   chandelier3.rotation.x = -20;
   scene.add(chandelier3);
 
-  // bulb orbit
+  // bulb1 orbit
   const bulb1Orbit = new THREE.Object3D();
   bulb1Orbit.position.x = 5;
   chandelier3.add(bulb1Orbit);
@@ -461,11 +461,6 @@ function main() {
   bulb1Orbit.add(bulb1);
   // scene.add(bulb1);
 
-  const gui = new GUI();
-  gui.add(bulb1.position, 'x', -10, 10, 0.01);
-  gui.add(bulb1.position, 'y', -10, 10, 0.01);
-  gui.add(bulb1.position, 'z', -10, 10, 0.01);
-
   radiusTop = 1.1;
   detail = 0;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
@@ -477,6 +472,11 @@ function main() {
   bulb1Orbit.add(bulb2);
   // scene.add(bulb2);
   
+  // bulb2 orbit
+  let bulb2Orbit = new THREE.Object3D();
+  bulb2Orbit.position.x = 5;
+  chandelier3.add(bulb2Orbit);
+
   // bulb2
   radiusTop = 0.9;
   detail = 1;
@@ -486,6 +486,7 @@ function main() {
   bulb3.position.y = 20;
   bulb3.position.z = -35;
   bulb3.position.x = -6.5;
+  // bulb2Orbit
   scene.add(bulb3);
 
   radiusTop = 1.1;
@@ -499,25 +500,44 @@ function main() {
   scene.add(bulb4);
 
   // bulb3
+
+  // bulb3 Orbit
+  let bulb3Orbit = new THREE.Object3D();
+  bulb3Orbit.position.x = 5;
+  chandelier3.add(bulb3Orbit);
+
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
   material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb5 = new THREE.Mesh(geometry, material);
-  bulb5.position.y = 25;
-  bulb5.position.z = -35.5;
-  bulb5.position.x = -6.5;
-  scene.add(bulb5);
+  // bulb5.position.y = 25;
+  // bulb5.position.z = -35.5;
+  // bulb5.position.x = -6.5;
+  bulb5.position.y = -7.21;
+  bulb5.position.z = 0.41;
+  bulb5.position.x = -4.7;
+  // scene.add(bulb5);
+  bulb3Orbit.add(bulb5);
+
+  const gui = new GUI();
+  gui.add(bulb5.position, 'x', -10, 10, 0.01);
+  gui.add(bulb5.position, 'y', -10, 10, 0.01);
+  gui.add(bulb5.position, 'z', -10, 10, 0.01);
 
   radiusTop = 1.1;
   detail = 0;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
   material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
   bulb6 = new THREE.Mesh(geometry, material);
-  bulb6.position.y = 25;
-  bulb6.position.z = -35.5;
-  bulb6.position.x = -6.5;
-  scene.add(bulb6);
+  // bulb6.position.y = 25;
+  // bulb6.position.z = -35.5;
+  // bulb6.position.x = -6.5;
+  bulb6.position.y = -7.21;
+  bulb6.position.z = 0.41;
+  bulb6.position.x = -4.7;
+  bulb3Orbit.add(bulb6);
+  // scene.add(bulb6);
 
   // bulb4
   radiusTop = 0.9;
