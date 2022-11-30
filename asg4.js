@@ -495,11 +495,6 @@ function main() {
   bulb2Orbit.add(bulb3);
   // scene.add(bulb3);
 
-  const gui = new GUI();
-  gui.add(bulb3.position, 'x', -10, 10, 0.01);
-  gui.add(bulb3.position, 'y', -10, 10, 0.01);
-  gui.add(bulb3.position, 'z', -10, 10, 0.01);
-
   radiusTop = 1.1;
   detail = 0;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
@@ -550,25 +545,44 @@ function main() {
   // scene.add(bulb6);
 
   // bulb4
+
+  // bulb4 Orbit
+  let bulb4Orbit = new THREE.Object3D();
+  bulb4Orbit.position.x = 5;
+  chandelier2.add(bulb4Orbit);
+
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
   material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
   bulb7 = new THREE.Mesh(geometry, material);
-  bulb7.position.y = 27;
-  bulb7.position.z = -30;
-  bulb7.position.x = 7;
-  scene.add(bulb7);
+  // bulb7.position.y = 27;
+  // bulb7.position.z = -30;
+  // bulb7.position.x = 7;
+  bulb7.position.y = -8.44;
+  bulb7.position.z = -0.08;
+  bulb7.position.x = -5.24;
+  // scene.add(bulb7);
+  bulb4Orbit.add(bulb7);
+
+  // const gui = new GUI();
+  // gui.add(bulb7.position, 'x', -10, 10, 0.01);
+  // gui.add(bulb7.position, 'y', -10, 10, 0.01);
+  // gui.add(bulb7.position, 'z', -10, 10, 0.01);
 
   radiusTop = 1.1;
   detail = 0;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
   material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
   bulb8 = new THREE.Mesh(geometry, material);
-  bulb8.position.y = 27;
-  bulb8.position.z = -30;
-  bulb8.position.x = 7;
-  scene.add(bulb8);
+  // bulb8.position.y = 27;
+  // bulb8.position.z = -30;
+  // bulb8.position.x = 7;
+  bulb8.position.y = -8.44;
+  bulb8.position.z = -0.08;
+  bulb8.position.x = -5.24;
+  // scene.add(bulb8);
+  bulb4Orbit.add(bulb8);
 
   // chandelier complete
 
