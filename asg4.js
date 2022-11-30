@@ -471,10 +471,11 @@ function main() {
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
   material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
   bulb2 = new THREE.Mesh(geometry, material);
-  bulb2.position.y = 22;
-  bulb2.position.z = -30;
-  bulb2.position.x = 7;
-  scene.add(bulb2);
+  bulb2.position.y = 7.7;
+  bulb2.position.z = -0.08;
+  bulb2.position.x = -5.24;
+  bulb1Orbit.add(bulb2);
+  // scene.add(bulb2);
   
   // bulb2
   radiusTop = 0.9;
@@ -1098,7 +1099,7 @@ function render(time) {
     // cube.rotation.y = time;
 
     // trying to add animation in the top chandelier
-    chandelier2.rotation.x = 0.5 * time; 
+    // chandelier2.rotation.x = 0.5 * time; 
     chandelier3.rotation.z = 0.5 * time;
     // set the position of the bulbs
     // bulb1.position.x += Math.sin(time * 0.05);
