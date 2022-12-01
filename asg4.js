@@ -28,6 +28,7 @@ let bulb_light_1, bulb_light_2, bulb_light_3, bulb_light_4;
 let fireplace_glow;
 let table_point_light_1, table_point_light_2, table_point_light_3, table_point_light_4;
 let pickPosition = {x: 0, y: 0};
+let render_to_texture_cube, render_cube1;
 class PickObject {
   constructor() {
     this.raycaster = new THREE.Raycaster();
@@ -117,7 +118,7 @@ function main() {
   let color = 0xFFFFFF;
     let intensity = 1;
     let light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(-1, 2, 4);
+    light.position.set(0, -3, 2);
     render_Scene.add(light);
   }
   // making 2 cubes here 
@@ -126,8 +127,8 @@ function main() {
   boxHeight = 1;
   boxDepth = 1;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x576907, fog:false});
-  let render_cube1 = new THREE.Mesh(geometry, material);
+  material = new THREE.MeshPhongMaterial({color: 0xf5f062, fog:false});
+  render_cube1 = new THREE.Mesh(geometry, material);
   render_Scene.add(render_cube1);
 
   // boxWidth = 2;
@@ -1248,11 +1249,11 @@ scene.add(lamp_light.target);
   material = new THREE.MeshPhongMaterial({
     map: renderTarget.texture, fog: false
   });
-  rod = new THREE.Mesh(geometry, material);
-  rod.position.y = -3.9;
-  rod.position.x = 16;
-  rod.position.z = -24;
-  scene.add(rod);
+  render_to_texture_cube = new THREE.Mesh(geometry, material);
+  render_to_texture_cube.position.y = -3.9;
+  render_to_texture_cube.position.x = 16;
+  render_to_texture_cube.position.z = -24;
+  scene.add(render_to_texture_cube);
 }
 
   // making the curtains
@@ -1300,6 +1301,13 @@ function render(time) {
     renderer.setRenderTarget(renderTarget);
     renderer.render(render_Scene, render_Camera);
     renderer.setRenderTarget(null);
+
+    // adding animation to the render to texture cube
+    render_to_texture_cube.rotation.y = time;
+    render_cube1.rotation.x = 0.5 * time;
+    render_cube1.rotation.y = 0.5 * time;
+    // rotating the cube inside the renderer cube
+
 
     // set the position of the bulbs
     // bulb1.position.x += Math.sin(time * 0.05);
