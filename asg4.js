@@ -88,17 +88,58 @@ function eventListenerFunction(){
 
   // window.addEventListener('touchend', clearPickPosition);
 }
+
+let render_Camera, render_Scene, render_Far, render_Near, render_Aspect, render_Fov, renderTarget;
 function main() {
   canvas = document.querySelector('#c');
   renderer = new THREE.WebGLRenderer({canvas, alpha: true,});
   renderer.physicallyCorrectLights = true;
   RectAreaLightUniformsLib.init();
-
   fov = 75;
   aspect = 2;  // the canvas default
   near = 0.1;
   far = 1000;
   camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+
+  // RENDER TO TEXTURE CODE BEGIN
+  // trying to render by texture here
+  renderTarget = new THREE.WebGLRenderTarget(512, 512); // ------
+  render_Scene = new THREE.Scene();
+  render_Fov = 75;
+  render_Aspect = 1;
+  render_Near = 0.1;
+  render_Far = 20;
+  render_Camera = new THREE.PerspectiveCamera(render_Fov, render_Aspect, render_Near, render_Far);
+  render_Camera.position.z = 2;
+  render_Scene.background = new THREE.Color(0x26b6c9);
+  // adding light in the rendering scene
+  {
+  let color = 0xFFFFFF;
+    let intensity = 1;
+    let light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(-1, 2, 4);
+    render_Scene.add(light);
+  }
+  // making 2 cubes here 
+
+  boxWidth = 1;
+  boxHeight = 1;
+  boxDepth = 1;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  material = new THREE.MeshPhongMaterial({color: 0x576907, fog:false});
+  let render_cube1 = new THREE.Mesh(geometry, material);
+  render_Scene.add(render_cube1);
+
+  // boxWidth = 2;
+  // boxHeight = 2;
+  // boxDepth = 2;
+  // geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  // material = new THREE.MeshPhongMaterial({color: 0xff0000, fog:false});
+  // let render_cube2 = new THREE.Mesh(geometry, material);
+  // render_cube2.x = 5;
+  // render_Scene.add(render_cube1);
+
+  // RENDER TO TEXTURE CODE END
 
   controls = new OrbitControls(camera, canvas);
   controls.target.set(0, 0, 0);
@@ -1151,7 +1192,7 @@ scene.add(lamp_light.target);
   label.scale.y = billboard_canvas.canvas.height * 0.02;
   scene.add(label);
 
-  // making a quick tree in here
+  // making a quick tree trunk in here
   radiusTop = 4;  // ui: radiusTop
   radiusBottom = 4;  // ui: radiusBottom
   height = 10;  // ui: height
@@ -1166,7 +1207,7 @@ scene.add(lamp_light.target);
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 
-  // making a quick tree in here
+  // making a quick tree trunk in here
   radiusTop = 5;  // ui: radiusTop
   radiusBottom = 5;  // ui: radiusBottom
   height = 16;  // ui: height
@@ -1183,7 +1224,7 @@ scene.add(lamp_light.target);
   requestAnimationFrame(render);
 
 
-  // making a quick tree in here
+  // making a quick tree trunk in here
   radiusTop = 5;  // ui: radiusTop
   radiusBottom = 5;  // ui: radiusBottom
   height = 32;  // ui: height
@@ -1198,6 +1239,20 @@ scene.add(lamp_light.target);
   scene.add(tree_trunk3);
   renderer.render(scene, camera);
   requestAnimationFrame(render);
+
+  // adding render to texture
+  boxWidth = 3;
+  boxHeight = 3;
+  boxDepth = 3;
+  geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  material = new THREE.MeshPhongMaterial({
+    map: renderTarget.texture, fog: false
+  });
+  rod = new THREE.Mesh(geometry, material);
+  rod.position.y = -3.9;
+  rod.position.x = 16;
+  rod.position.z = -24;
+  scene.add(rod);
 }
 
   // making the curtains
@@ -1240,6 +1295,12 @@ function render(time) {
     // trying to add animation in the top chandelier
     chandelier2.rotation.x = 0.5 * time; 
     chandelier3.rotation.z = 0.5 * time;
+
+    // trying to set up some rendering to texture here
+    renderer.setRenderTarget(renderTarget);
+    renderer.render(render_Scene, render_Camera);
+    renderer.setRenderTarget(null);
+
     // set the position of the bulbs
     // bulb1.position.x += Math.sin(time * 0.05);
     // bulb1.position.z += 0.1 * Math.cos(time);f
