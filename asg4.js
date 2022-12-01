@@ -28,7 +28,6 @@ let bulb_light_1, bulb_light_2, bulb_light_3, bulb_light_4;
 let fireplace_glow;
 let table_point_light_1, table_point_light_2, table_point_light_3, table_point_light_4;
 let pickPosition = {x: 0, y: 0};
-
 class PickObject {
   constructor() {
     this.raycaster = new THREE.Raycaster();
@@ -125,13 +124,16 @@ function main() {
   }
 
   // trying to add fog in here
-  // {
-  //   const near = 58;
-  //   const far = 88;
-  //   const color = 'white';
-  //   scene.fog = new THREE.Fog(color, near, far);
-  //   scene.background = new THREE.Color(color);
-  // }
+  {
+    // const near = 70;
+    // const far = 300;
+    // const color = 'white';
+    // scene.fog = new THREE.Fog(color, near, far);
+    // scene.background = new THREE.Color(color);
+  const color = 0xFFFFFF;
+  const density = 0.007;
+  scene.fog = new THREE.FogExp2(color, density);
+  }
   {
     const loader = new THREE.TextureLoader();
     // const texture = loader.load([
@@ -172,7 +174,7 @@ function main() {
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(4, 4);
   // this could also be MeshBasicMaterial
-  material = new THREE.MeshPhongMaterial({map: texture,});
+  material = new THREE.MeshPhongMaterial({map: texture, fog:false});
 //   material = new THREE.MeshPhongMaterial({color: 0x44aa88});
   floor_cube = new THREE.Mesh(geometry, material);
   floor_cube.position.x = 2;
@@ -191,12 +193,13 @@ function main() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(6, 6);
-  material = new THREE.MeshPhongMaterial({map: texture});
+  material = new THREE.MeshPhongMaterial({map: texture, fog:false});
   let carpet = new THREE.Mesh(geometry, material);
   carpet.position.x = 10;
   carpet.position.z = -40;
   carpet.position.y = -11.6;
   scene.add(carpet);
+
   // making the first wall
   boxWidth = 0.5;
   boxHeight = 45;
@@ -207,7 +210,7 @@ function main() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(4, 4);
-  material = new THREE.MeshPhongMaterial({map: texture,}); // changed it from phong
+  material = new THREE.MeshPhongMaterial({map: texture, fog:false}); // changed it from phong
   wall_left = new THREE.Mesh(geometry, material);
   wall_left.position.x = -20;
   wall_left.position.z = -40;
@@ -227,7 +230,7 @@ function main() {
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(4, 4);
   // texture.repeat.set(10, 10);
-  material = new THREE.MeshPhongMaterial({map: texture});
+  material = new THREE.MeshPhongMaterial({map: texture, fog:false});
   wall_right = new THREE.Mesh(geometry, material);
   wall_right.position.x = 24.5;
   wall_right.position.z = -40;
@@ -240,7 +243,7 @@ function main() {
   boxHeight = 45;
   boxDepth = 0.5;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x44aa88});
+  material = new THREE.MeshPhongMaterial({color: 0x44aa88, fog:false});
   material = new THREE.MeshPhysicalMaterial({  
     roughness: 0,  
     transmission: 1,  
@@ -258,7 +261,7 @@ function main() {
   boxHeight = 43;
   boxDepth = 0.4;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF, fog:false});
   window_frame = new THREE.Mesh(geometry, material);
   window_frame.position.x = 4.5;
   window_frame.position.z = -60;
@@ -270,7 +273,7 @@ function main() {
   boxHeight = 0.4;
   boxDepth = 0.4;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF, fog:false});
   window_frame_horizontal_1 = new THREE.Mesh(geometry, material);
   window_frame_horizontal_1.position.x = 2;
   window_frame_horizontal_1.position.z = -60;
@@ -282,7 +285,7 @@ function main() {
   boxHeight = 0.4;
   boxDepth = 0.4;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+  material = new THREE.MeshPhongMaterial({color: 0xFFFFFF, fog:false});
   window_frame_horizontal_2 = new THREE.Mesh(geometry, material);
   window_frame_horizontal_2.position.x = 2;
   window_frame_horizontal_2.position.z = -60;
@@ -299,7 +302,7 @@ function main() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(4, 4);
-  material = new THREE.MeshPhongMaterial({map: texture,});
+  material = new THREE.MeshPhongMaterial({map: texture, fog:false});
   wall_top = new THREE.Mesh(geometry, material);
   wall_top.position.x = 2;
   wall_top.position.z = -40;
@@ -313,12 +316,12 @@ function main() {
    geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
    loader = new THREE.TextureLoader();
    const materials = [
-    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg')}),
-    new THREE.MeshBasicMaterial({map: loader.load('wolf.jpg')}),
-    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg')}),
-    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg')}),
-    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg')}),
-    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg')}),
+    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg'), fog:false}),
+    new THREE.MeshBasicMaterial({map: loader.load('wolf.jpg'), fog:false}),
+    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg'), fog:false}),
+    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg'), fog:false}),
+    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg'), fog:false}),
+    new THREE.MeshBasicMaterial({map: loader.load('wood2.jpeg'), fog:false}),
   ];
   painting = new THREE.Mesh(geometry, materials);
   painting.position.x = 23;
@@ -332,7 +335,7 @@ function main() {
   height = 4;  // ui: height
   let radialSegments = 8;  // ui: radialSegments
   geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xacacad});
+  material = new THREE.MeshPhongMaterial({color: 0xacacad, fog:false});
   bedside_table_left = new THREE.Mesh(geometry, material);
   bedside_table_left.position.x = 18; // this is left-right
   bedside_table_left.position.y = -9; // this is the depth
@@ -344,7 +347,7 @@ function main() {
   height = 4;  // ui: height
   radialSegments = 8;  // ui: radialSegments
   geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xacacad});
+  material = new THREE.MeshPhongMaterial({color: 0xacacad, fog:false});
   bedside_table_right = new THREE.Mesh(geometry, material);
   bedside_table_right.position.x = 18; // this is left-right
   bedside_table_right.position.y = -9; // this is the depth
@@ -358,6 +361,7 @@ function main() {
     mtl.preload();
    for (const material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
+     material.fog = false;
    }
     objLoader.setMaterials(mtl);
     objLoader.load('enlarged-bed-obj (7)/enlarged-bed.obj', (root) => {
@@ -368,11 +372,6 @@ function main() {
       const box = new THREE.Box3().setFromObject(root);
   const boxSize = box.getSize(new THREE.Vector3()).length();
   const boxCenter = box.getCenter(new THREE.Vector3());
-  // frameArea(boxSize * 0.8, boxSize, boxCenter, camera);
-  //     // update the Trackball controls to handle the new size
-  //     controls.maxDistance = boxSize * 10;
-  //     controls.target.copy(boxCenter);
-  //     controls.update();
   console.log(boxSize);
   console.log(boxCenter);
     });
@@ -406,7 +405,7 @@ function main() {
   height = 7;  // ui: height
   radialSegments = 10;  // ui: radialSegments
   geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xF5F5DC});
+  material = new THREE.MeshPhongMaterial({color: 0xF5F5DC, fog:false});
   chandelier1 = new THREE.Mesh(geometry, material);
   chandelier1.position.y = 27;
   chandelier1.position.z = -33;
@@ -418,7 +417,7 @@ function main() {
   height = 15;  // ui: height
   radialSegments = 10;  // ui: radialSegments
   geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xF5F5DC});
+  material = new THREE.MeshPhongMaterial({color: 0xF5F5DC, fog:false});
   chandelier2 = new THREE.Mesh(geometry, material);
   chandelier2.position.y = 23.5;
   chandelier2.position.z = -33;
@@ -432,7 +431,7 @@ function main() {
   height = 15;  // ui: height
   radialSegments = 10;  // ui: radialSegments
   geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
-  material = new THREE.MeshPhongMaterial({color: 0xF5F5DC});
+  material = new THREE.MeshPhongMaterial({color: 0xF5F5DC, fog:false});
   chandelier3 = new THREE.Mesh(geometry, material);
   chandelier3.position.y = 23.5;
   chandelier3.position.z = -33;
@@ -449,7 +448,7 @@ function main() {
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5, fog:false});
   bulb1 = new THREE.Mesh(geometry, material);
   // bulb1.position.y = 22;
   // bulb1.position.z = -30;
@@ -464,7 +463,7 @@ function main() {
   radiusTop = 1.1;
   detail = 0;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
+  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true, fog:false});
   bulb2 = new THREE.Mesh(geometry, material);
   bulb2.position.y = 7.7;
   bulb2.position.z = -0.08;
@@ -483,7 +482,7 @@ function main() {
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5, fog:false});
   bulb3 = new THREE.Mesh(geometry, material);
   // bulb3.position.y = 20;
   // bulb3.position.z = -35;
@@ -498,7 +497,7 @@ function main() {
   radiusTop = 1.1;
   detail = 0;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true, emissive: 0xf5e889, emissiveIntensity: 0.5});
+  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true, emissive: 0xf5e889, emissiveIntensity: 0.5, fog:false});
   bulb4 = new THREE.Mesh(geometry, material);
   // bulb4.position.y = 20;
   // bulb4.position.z = -35;
@@ -519,7 +518,7 @@ function main() {
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5, fog:false});
   bulb5 = new THREE.Mesh(geometry, material);
   // bulb5.position.y = 25;
   // bulb5.position.z = -35.5;
@@ -533,7 +532,7 @@ function main() {
   radiusTop = 1.1;
   detail = 0;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
+  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true, fog:false});
   bulb6 = new THREE.Mesh(geometry, material);
   // bulb6.position.y = 25;
   // bulb6.position.z = -35.5;
@@ -554,7 +553,7 @@ function main() {
   radiusTop = 0.9;
   detail = 1;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5});
+  material = new THREE.MeshPhongMaterial({color: 0xf2c933, emissive: 0xf5e889, emissiveIntensity: 0.5, fog:false});
   bulb7 = new THREE.Mesh(geometry, material);
   // bulb7.position.y = 27;
   // bulb7.position.z = -30;
@@ -573,7 +572,7 @@ function main() {
   radiusTop = 1.1;
   detail = 0;
   geometry = new THREE.DodecahedronGeometry(radiusTop, detail);
-  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true});
+  material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe:true, fog:false});
   bulb8 = new THREE.Mesh(geometry, material);
   // bulb8.position.y = 27;
   // bulb8.position.z = -30;
@@ -593,6 +592,7 @@ function main() {
     mtl.preload();
    for (const material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
+     material.fog = false;
    }
     objLoader.setMaterials(mtl);
     objLoader.load('flat-screen-lcd-tv-obj/flat-screen-lcd-tv.obj', (root) => {
@@ -624,7 +624,7 @@ function main() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(1.5, 1.5);
-  material = new THREE.MeshPhongMaterial({map: texture,});
+  material = new THREE.MeshPhongMaterial({map: texture, fog:false});
   table = new THREE.Mesh(geometry, material);
   table.position.x = -16.5;
   table.position.z = -48;
@@ -640,7 +640,7 @@ function main() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(1.5, 1.5);
-  material = new THREE.MeshPhongMaterial({map: texture,});
+  material = new THREE.MeshPhongMaterial({map: texture, fog:false});
   table2 = new THREE.Mesh(geometry, material);
   table2.position.x = -16.5;
   table2.position.z = -25;
@@ -656,7 +656,7 @@ function main() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(1.5, 1.5);
-  material = new THREE.MeshPhongMaterial({map: texture,});
+  material = new THREE.MeshPhongMaterial({map: texture, fog:false});
   table3 = new THREE.Mesh(geometry, material);
   table3.position.x = -16.5;
   table3.position.z = -36.5;
@@ -672,7 +672,7 @@ function main() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(1.5, 1.5);
-  material = new THREE.MeshPhongMaterial({map: texture,});
+  material = new THREE.MeshPhongMaterial({map: texture, fog:false});
   table4 = new THREE.Mesh(geometry, material);
   table4.position.x = -16.5;
   table4.position.z = -36.5;
@@ -689,7 +689,7 @@ function main() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(1.5, 1.5);
-  material = new THREE.MeshPhongMaterial({map: texture,});
+  material = new THREE.MeshPhongMaterial({map: texture, fog:false});
   bed_panel = new THREE.Mesh(geometry, material);
   bed_panel.position.x = 23;
   bed_panel.position.z = -40;
@@ -715,7 +715,7 @@ function main() {
     points.push(new THREE.Vector2(Math.sin(i * 0.03) * 1.5 + 1.5, (i - 5) * .3));
   }
   geometry = new THREE.LatheGeometry(points, 20, 1.5 * Math.PI, 4 * Math.PI);
-  material = new THREE.MeshPhongMaterial({color: 0x000000, shininess: 90});
+  material = new THREE.MeshPhongMaterial({color: 0x000000, shininess: 90, fog:false});
   let light_bed = new THREE.Mesh(geometry, material);
   light_bed.rotation.x = THREE.MathUtils.degToRad(180);
   light_bed.position.x = 21;
@@ -739,7 +739,7 @@ function main() {
     points.push(new THREE.Vector2(Math.sin(i * 0.03) * 1.5 + 1.5, (i - 5) * .3));
   }
   geometry = new THREE.LatheGeometry(points, 20, 1.5 * Math.PI, 4 * Math.PI);
-  material = new THREE.MeshPhongMaterial({color: 0x000000, shininess: 90});
+  material = new THREE.MeshPhongMaterial({color: 0x000000, shininess: 90, fog:false});
   light_bed = new THREE.Mesh(geometry, material);
   light_bed.rotation.x = THREE.MathUtils.degToRad(180);
   light_bed.position.x = 22;
@@ -750,7 +750,7 @@ function main() {
   boxHeight = 2.2;
   boxDepth = 0.1;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90});
+  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90, fog:false});
   let rod = new THREE.Mesh(geometry, material);
   rod.position.y = -1.3;
   rod.position.x = 22;
@@ -761,7 +761,7 @@ function main() {
   boxHeight = 2.2;
   boxDepth = 0.1;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90});
+  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90, fog:false});
   rod = new THREE.Mesh(geometry, material);
   rod.position.y = -1.3;
   rod.position.x = 22;
@@ -772,7 +772,7 @@ function main() {
   boxHeight = 0.3;
   boxDepth = 0.3;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90});
+  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90, fog:false});
   rod = new THREE.Mesh(geometry, material);
   rod.position.y = -2.2;
   rod.position.x = 22.6;
@@ -783,7 +783,7 @@ function main() {
   boxHeight = 0.3;
   boxDepth = 0.3;
   geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90});
+  material = new THREE.MeshPhongMaterial({color: 0x808080, emissive: 0x808080, shininess: 90, fog:false});
   rod = new THREE.Mesh(geometry, material);
   rod.position.y = -2.2;
   rod.position.x = 22.6;
@@ -834,7 +834,7 @@ scene.add(lamp_light.target);
   material = new THREE.MeshPhysicalMaterial({  
     roughness: 0.5,  
     transmission: 1,  
-    thickness: 4,
+    thickness: 4, fog:false
   });
   fireplace_mesh = new THREE.Mesh(geometry, material);
   fireplace_mesh.position.x = -14.88;
@@ -1115,7 +1115,87 @@ scene.add(lamp_light.target);
   // const boxCenter = box.getCenter(new THREE.Vector3());
   //   });
   // });
-  
+
+  // trying to add a label here (billboard)
+  let baseWidth = 150;
+  let borderSize = 6;
+  let size = 37;
+  let billboard_canvas = document.createElement('canvas').getContext('2d');
+  const font =  `${32}px bold sans-serif`;
+  billboard_canvas.font = font;
+  let textWidth = billboard_canvas.measureText("The Minimalist Room").width;
+  let doubleBorderSize = borderSize * 2;
+  let width = baseWidth + doubleBorderSize;
+  height = size + doubleBorderSize;
+  billboard_canvas.canvas.width = width;
+  billboard_canvas.canvas.height = height;
+  billboard_canvas.textBaseline = 'middle';
+  billboard_canvas.textAlign = 'center';
+  billboard_canvas.fillStyle = 'grey';
+  billboard_canvas.fillRect(0, 0, width, height);
+  const scaleFactor = Math.min(1, baseWidth / textWidth);
+  billboard_canvas.translate(width / 2, height / 2);
+  billboard_canvas.scale(scaleFactor * 3, 1);
+  billboard_canvas.fillStyle = 'white';
+  billboard_canvas.fillText("The Minimalist Room", 0, 0);
+  texture = new THREE.CanvasTexture(billboard_canvas.canvas);
+  let labelMaterial = new THREE.SpriteMaterial({
+    map: texture,
+    transparent: true,
+  });
+  let label = new THREE.Sprite(labelMaterial);
+  label.position.y = -6;
+  label.position.z = -4;
+  label.position.x = 10;
+  label.scale.x = billboard_canvas.canvas.width  *  0.02;
+  label.scale.y = billboard_canvas.canvas.height * 0.02;
+  scene.add(label);
+
+  // making a quick tree in here
+  radiusTop = 4;  // ui: radiusTop
+  radiusBottom = 4;  // ui: radiusBottom
+  height = 10;  // ui: height
+  radialSegments = 12;  // ui: radialSegments
+  geometry = new THREE.CylinderGeometry(
+    radiusTop, radiusBottom, height, radialSegments);
+  material = new THREE.MeshPhongMaterial({color: 0xa35903});
+  let tree_trunk = new THREE.Mesh(geometry, material);
+  tree_trunk.position.z = -90;
+  tree_trunk.position.y = -7;
+  scene.add(tree_trunk);
+  renderer.render(scene, camera);
+  requestAnimationFrame(render);
+
+  // making a quick tree in here
+  radiusTop = 5;  // ui: radiusTop
+  radiusBottom = 5;  // ui: radiusBottom
+  height = 16;  // ui: height
+  radialSegments = 12;  // ui: radialSegments
+  geometry = new THREE.CylinderGeometry(
+    radiusTop, radiusBottom, height, radialSegments);
+  material = new THREE.MeshPhongMaterial({color: 0xa35903});
+  let tree_trunk2 = new THREE.Mesh(geometry, material);
+  tree_trunk2.position.z = -160;
+  tree_trunk2.position.x = 14;
+  tree_trunk2.position.y = -7;
+  scene.add(tree_trunk2);
+  renderer.render(scene, camera);
+  requestAnimationFrame(render);
+
+
+  // making a quick tree in here
+  radiusTop = 5;  // ui: radiusTop
+  radiusBottom = 5;  // ui: radiusBottom
+  height = 32;  // ui: height
+  radialSegments = 12;  // ui: radialSegments
+  geometry = new THREE.CylinderGeometry(
+    radiusTop, radiusBottom, height, radialSegments);
+  material = new THREE.MeshPhongMaterial({color: 0xa35903});
+  let tree_trunk3 = new THREE.Mesh(geometry, material);
+  tree_trunk3.position.z = -200;
+  tree_trunk3.position.x = 40;
+  tree_trunk3.position.y = -7;
+  scene.add(tree_trunk3);
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 }
@@ -1127,6 +1207,7 @@ scene.add(lamp_light.target);
     mtl.preload();
    for (const material of Object.values(mtl.materials)) {
      material.side = THREE.DoubleSide;
+     material.fog = false;
    }
     objLoader.setMaterials(mtl);
     objLoader.load('curtain-single-obj/curtain-single.obj', (root) => {
