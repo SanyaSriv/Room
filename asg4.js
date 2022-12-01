@@ -29,29 +29,6 @@ let fireplace_glow;
 let table_point_light_1, table_point_light_2, table_point_light_3, table_point_light_4;
 let pickPosition = {x: 0, y: 0};
 let render_to_texture_cube, render_cube1;
-class PickObject {
-  constructor() {
-    this.raycaster = new THREE.Raycaster();
-    this.pickedObject = null;
-    this.pickedObjectSavedColor = 0;
-  }
-  pick(normalizedPosition, scene, camera, time) {
-    if (this.pickedObject) {
-      this.pickedObject.material.emissive.setHex(this.pickedObjectSavedColor);
-      this.pickedObject = undefined;
-    }
-    this.raycaster.setFromCamera(normalizedPosition, camera);
-    const intersectedObjects = this.raycaster.intersectObjects(scene.children);
-    if (intersectedObjects.length) {
-      // pick the first object. It's the closest one
-      this.pickedObject = intersectedObjects[0].object;
-      // save its color
-      this.pickedObjectSavedColor = this.pickedObject.material.emissive.getHex();
-      // set its emissive color to flashing red/yellow
-      this.pickedObject.material.emissive.setHex((time * 8) % 2 > 1 ? 0xFFFF00 : 0xFF0000);
-    }
-  }
-}
 
 function getCanvasRelativePosition(event) {
   const rect = canvas.getBoundingClientRect();
@@ -59,35 +36,6 @@ function getCanvasRelativePosition(event) {
     x: (event.clientX - rect.left) * canvas.width  / rect.width,
     y: (event.clientY - rect.top ) * canvas.height / rect.height,
   };
-}
-
-function setPickPosition(event) {
-  let position = getCanvasRelativePosition(event);
-  pickPosition.x = (position.x / canvas.width ) *  2 - 1;
-  pickPosition.y = (position.y / canvas.height) * -2 + 1;
-}
-
-function clearPickPosition(){
-  pickPosition.x = -100000;
-  pickPosition.y = -100000;
-}
-
-function eventListenerFunction(){
-  // window.addEventListener('mousemove', setPickPosition);
-  // window.addEventListener('mouseout', clearPickPosition);
-  // window.addEventListener('mouseleave', clearPickPosition);
-
-  // window.addEventListener('touchstart', (event) => {
-  //   // prevent the window from scrolling
-  //   event.preventDefault();
-  //   setPickPosition(event.touches[0]);
-  // }, {passive: false});
-
-  // window.addEventListener('touchmove', (event) => {
-  //   setPickPosition(event.touches[0]);
-  // });
-
-  // window.addEventListener('touchend', clearPickPosition);
 }
 
 let render_Camera, render_Scene, render_Far, render_Near, render_Aspect, render_Fov, renderTarget;
@@ -121,7 +69,7 @@ function main() {
     light.position.set(0, -3, 2);
     render_Scene.add(light);
   }
-  // making 2 cubes here 
+  // making 1 cube here 
 
   boxWidth = 1;
   boxHeight = 1;
@@ -130,15 +78,6 @@ function main() {
   material = new THREE.MeshPhongMaterial({color: 0xf5f062, fog:false});
   render_cube1 = new THREE.Mesh(geometry, material);
   render_Scene.add(render_cube1);
-
-  // boxWidth = 2;
-  // boxHeight = 2;
-  // boxDepth = 2;
-  // geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  // material = new THREE.MeshPhongMaterial({color: 0xff0000, fog:false});
-  // let render_cube2 = new THREE.Mesh(geometry, material);
-  // render_cube2.x = 5;
-  // render_Scene.add(render_cube1);
 
   // RENDER TO TEXTURE CODE END
 
@@ -172,9 +111,9 @@ function main() {
     // const color = 'white';
     // scene.fog = new THREE.Fog(color, near, far);
     // scene.background = new THREE.Color(color);
-  const color = 0xFFFFFF;
-  const density = 0.007;
-  scene.fog = new THREE.FogExp2(color, density);
+    const color = 0xFFFFFF;
+    const density = 0.007;
+    scene.fog = new THREE.FogExp2(color, density);
   }
   {
     const loader = new THREE.TextureLoader();
@@ -418,27 +357,6 @@ function main() {
   console.log(boxCenter);
     });
   });
-
-  // objLoader = new OBJLoader();
-  // mtlLoader = new MTLLoader();
-  // mtlLoader.load('indoor plant_02_obj/indoor plant_02.mtl', (mtl) => {
-  //   mtl.preload();
-  //  for (const material of Object.values(mtl.materials)) {
-  //    material.side = THREE.DoubleSide;
-  //  }
-  //   objLoader.setMaterials(mtl);
-  //   objLoader.load('indoor plant_02_obj/indoor plant_02.obj', (root) => {
-  //     root.position.y = -14;
-  //     root.position.x = 24;
-  //     root.position.z = -42;
-  //     scene.add(root);
-  //     const box = new THREE.Box3().setFromObject(root);
-  // const boxSize = box.getSize(new THREE.Vector3()).length();
-  // const boxCenter = box.getCenter(new THREE.Vector3());
-  // console.log(boxSize);
-  // console.log(boxCenter);
-  //   });
-  // });
 
   // adding the chandelier (this might contain animation too)
   // first part of the chandelier
@@ -832,41 +750,23 @@ function main() {
   rod.position.z = -49;
   scene.add(rod);
 
-  //now going to make bed side lights
-  // color = 0xffffe0;
-  // color = 0xFFFFFF;
-  // intensity = 8;
-  // let lamp_light = new THREE.PointLight(color, intensity);
-  // lamp_light.position.set(21.5, -1, -29);
-  // lamp_light.distance = 30;
-  // scene.add(lamp_light);
-  // let helper = new THREE.PointLightHelper(lamp_light);
-  // scene.add(helper);
+  color = 0xffb6c1;
+  intensity = 25;
+  let lamp_light = new THREE.SpotLight(color, intensity);
+  lamp_light.angle = THREE.MathUtils.degToRad(42);
+  lamp_light.position.set(20, 0.3, -27.8);
+  lamp_light.target.position.set(50, -58.38, -50);
+  scene.add(lamp_light);
+  scene.add(lamp_light.target);
 
-color = 0xffb6c1;
-intensity = 25;
-let lamp_light = new THREE.SpotLight(color, intensity);
-lamp_light.angle = THREE.MathUtils.degToRad(42);
-lamp_light.position.set(20, 0.3, -27.8);
-lamp_light.target.position.set(50, -58.38, -50);
-scene.add(lamp_light);
-scene.add(lamp_light.target);
-
-color =0xffb6c1;
-intensity = 25;
-lamp_light = new THREE.SpotLight(color, intensity);
-lamp_light.angle = THREE.MathUtils.degToRad(42);
-lamp_light.position.set(20, 0.3, -51.2);
-lamp_light.target.position.set(50, -58.38, -50);
-scene.add(lamp_light);
-scene.add(lamp_light.target);
-
-  // color = 0xffffe0;
-  // intensity = 4;
-  // light = new THREE.PointLight(color, intensity);
-  // light.position.set(-19, 6.5, -46);
-  // light.distance = 22;
-  // scene.add(light);
+  color =0xffb6c1;
+  intensity = 25;
+  lamp_light = new THREE.SpotLight(color, intensity);
+  lamp_light.angle = THREE.MathUtils.degToRad(42);
+  lamp_light.position.set(20, 0.3, -51.2);
+  lamp_light.target.position.set(50, -58.38, -50);
+  scene.add(lamp_light);
+  scene.add(lamp_light.target);
 
   // trying to create the electric fire place
   boxWidth = 0.4;
@@ -897,16 +797,6 @@ scene.add(lamp_light.target);
   bulb_light_1.position.set(-5.24, 7.7, -0.08);
   // scene.add(bulb_light_1);
   bulb1Orbit.add(bulb_light_1);
-  // let helper = new THREE.PointLightHelper(bulb_light_1);
-  // scene.add(helper);
-
-  // bulb_light_1.target.position.x = 6;
-  // bulb_light_1.target.position.y = -10;
-  // bulb_light_1.target.position.z = -30;
-  // bulb_light_1.decay = 1.2;
-  // bulb_light_1.angle = THREE.MathUtils.degToRad(20);;
-
-  // scene.add(bulb_light_1.target);
 
   // light for bulb 2 (chandelier)
   color = 0xf7f7c1;
@@ -916,17 +806,7 @@ scene.add(lamp_light.target);
   bulb_light_2 = new THREE.PointLight(color, intensity);
   bulb_light_2.position.set(-5.24, 7.54, 0.66);
   bulb2Orbit.add(bulb_light_2);
-  // helper = new THREE.PointLightHelper(bulb_light_2);
-  // scene.add(helper);
-
-  // bulb_light_2.position.set(-6.5, 20, -35);
-  // scene.add(bulb_light_2);
-  // scene.add(bulb_light_2.target);
-  // bulb_light_2.target.position.x = -10;
-  // bulb_light_2.target.position.y = -15;
-  // bulb_light_2.target.position.z = -35;
-  // bulb_light_2.decay = 1.2;
-  // bulb_light_2.angle = THREE.MathUtils.degToRad(20);;
+ 
 
   // light for bulb 3 (chandelier)
   color = 0xf7f7c1;
@@ -939,12 +819,6 @@ scene.add(lamp_light.target);
   // scene.add(bulb_light_3);
   bulb3Orbit.add(bulb_light_3);
 
-  // scene.add(bulb_light_3.target);
-   // bulb_light_3.target.position.x = -10;
-  // bulb_light_3.target.position.y = -15;
-  // bulb_light_3.target.position.z = -15;
-  // bulb_light_3.decay = 1.2;
-  // bulb_light_3.angle = THREE.MathUtils.degToRad(20);;
 
   // light for bulb 4 (chandelier)
   color = 0xf7f7c1;
@@ -954,17 +828,6 @@ scene.add(lamp_light.target);
   bulb_light_4 = new THREE.PointLight(color, intensity);
   bulb_light_4.position.set(-5.24, -8.44, -0.08);
   bulb4Orbit.add(bulb_light_4);
-
-  // scene.add(bulb_light_4.target);
-   // bulb_light_4.target.position.x = 6;
-  // bulb_light_4.target.position.y = -10;
-  // bulb_light_4.target.position.z = -40;
-  // bulb_light_4.decay = 1.2;
-  // bulb_light_4.angle = THREE.MathUtils.degToRad(15);
-  // this draws the outer boundry and stuff
-  // let helper = new THREE.SpotLightHelper(bulb_light_2);
-  // scene.add(helper);
-
 
   // now to make the fire place more realisic, we will have to give a red glow inside it
   color = 0xFF0000;
@@ -1139,25 +1002,6 @@ scene.add(lamp_light.target);
   light.distance = 22;
   scene.add(light);
 
-  // objLoader = new OBJLoader();
-  // mtlLoader = new MTLLoader();
-  // mtlLoader.load('tree-05-obj/tree-05.mtl', (mtl) => {
-  //   mtl.preload();
-  //  for (const material of Object.values(mtl.materials)) {
-  //    material.side = THREE.DoubleSide;
-  //  }
-  //   objLoader.setMaterials(mtl);
-  //   objLoader.load('tree-05-obj/tree-05.obj', (root) => {
-  //     root.position.y = -40;
-  //     root.position.x = -200;
-  //     root.position.z = -400;
-  //     scene.add(root);
-  //     const box = new THREE.Box3().setFromObject(root);
-  // const boxSize = box.getSize(new THREE.Vector3()).length();
-  // const boxCenter = box.getCenter(new THREE.Vector3());
-  //   });
-  // });
-
   // trying to add a label here (billboard)
   let baseWidth = 150;
   let borderSize = 6;
@@ -1280,8 +1124,6 @@ scene.add(lamp_light.target);
 
 function render(time) {
     time *= 0.001;  // convert time to seconds
-    // let pickHelper = new PickObject();
-    // pickHelper.pick(pickPosition, scene, camera, time);
     if (resizeRendererToDisplaySize(renderer)) {
         canvas = renderer.domElement;
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
@@ -1290,8 +1132,6 @@ function render(time) {
     canvas = renderer.domElement;
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
-    // cube.rotation.x = time;
-    // cube.rotation.y = time;
 
     // trying to add animation in the top chandelier
     chandelier2.rotation.x = 0.5 * time; 
@@ -1304,14 +1144,10 @@ function render(time) {
 
     // adding animation to the render to texture cube
     render_to_texture_cube.rotation.y = time;
+    // rotating the cube inside the renderer cube
     render_cube1.rotation.x = 0.5 * time;
     render_cube1.rotation.y = 0.5 * time;
-    // rotating the cube inside the renderer cube
-
-
-    // set the position of the bulbs
-    // bulb1.position.x += Math.sin(time * 0.05);
-    // bulb1.position.z += 0.1 * Math.cos(time);f
+    
 
     renderer.render(scene, camera);
     requestAnimationFrame(render);
