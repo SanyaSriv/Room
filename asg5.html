@@ -1,0 +1,27 @@
+<style>
+html, body {
+   margin: 0;
+   height: 100%;
+}
+#c {
+   width: 100%;
+   height: 100%;
+   display: block;
+   background: url(100898824_braden-red-oak-wire-brushed-solid-hardwood_display.png) repeat 4 4;
+   background-size: cover;
+}
+</style>
+<body>
+<canvas id="c" width=window.innerWidth; height=window.innerheight;></canvas>
+  <script  type="importmap">{
+	"imports": {
+		"three": "https://threejs.org/build/three.module.js",
+      "OrbitControl": "https://threejs.org/examples/js/controls/OrbitControls.js"
+	}
+}</script><!-- Remove this when import maps will be widely supported -->
+<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+<script src="./asg5.js" type="module"> </script>
+<script src="./three.js-master/examples/jsm/loaders/OBJLoader.js" type="module"> </script>
+<script src="https://threejs.org/build/three.min.js"></script>
+<script src="./OrbitControls.js" type="module"></script>
+</body>
