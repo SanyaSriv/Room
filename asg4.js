@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-// import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r132/build/three.module.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
 import {OBJLoader} from "/Room/three.js-master/examples/jsm/loaders/OBJLoader.js";
 import {MTLLoader} from '/Room/three.js-master/examples/jsm/loaders/MTLLoader.js';
@@ -86,9 +85,6 @@ function main() {
   controls.update();
   camera.position.z = 8;
 
-  // clearPickPosition();
-  // eventListenerFunction();
-
   scene = new THREE.Scene();
   {
     let color = 0xFFFFFF;
@@ -134,15 +130,6 @@ function main() {
           scene.background = rt.texture;
         });
   }
-
-
-  // boxWidth = 1;
-  // boxHeight = 1;
-  // boxDepth = 1;
-  // geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  // material = new THREE.MeshPhongMaterial({color: 0x44aa88});  // greenish blue
-  // cube = new THREE.Mesh(geometry, material);
-  // scene.add(cube);
 
   // making the floor cube
   boxWidth = 45;
@@ -655,19 +642,6 @@ function main() {
   bed_panel.position.z = -40;
   bed_panel.position.y = -7.5;
   scene.add(bed_panel);
-  
-  // drawing the bed side lights
-  // let tubeRadius1 = 1;  // ui: radius
-  // let tubeRadius2 = 0.4;  // ui: tubeRadius
-  // let tubeRadialSegments = 12;  // ui: radialSegments
-  // let tubularSegments = 12;  // ui: tubularSegments
-  // geometry = new THREE.TorusGeometry(tubeRadius1, tubeRadius2, tubeRadialSegments, tubularSegments);
-  // material = new THREE.MeshPhongMaterial({color: 0xf7e294, emissive: 0xf5e889, emissiveIntensity: 0.35});
-  // tube_light1 = new THREE.Mesh(geometry, material);
-  // tube_light1.rotation.y = 1.5;
-  // tube_light1.position.x = 23;
-  // tube_light1.position.z = -30;
-  // scene.add(tube_light1);
 
 // this thing is not working
   let points = [];
@@ -681,18 +655,6 @@ function main() {
   light_bed.position.x = 21;
   light_bed.position.z = -29;
   scene.add(light_bed);
-
-  // tubeRadius1 = 1;  // ui: radius
-  // tubeRadius2 = 0.4;  // ui: tubeRadius
-  // tubeRadialSegments = 12;  // ui: radialSegments
-  // tubularSegments = 12;  // ui: tubularSegments
-  // geometry = new THREE.TorusGeometry(tubeRadius1, tubeRadius2, tubeRadialSegments, tubularSegments);
-  // material = new THREE.MeshPhongMaterial({color: 0xf7e294, emissive: 0xf5e889, emissiveIntensity: 0.35});
-  // tube_light2 = new THREE.Mesh(geometry, material);
-  // tube_light2.rotation.y = 1.5;
-  // tube_light2.position.x = 23;
-  // tube_light2.position.z = -50;
-  // scene.add(tube_light2);
 
   points = [];
   for (let i = 0; i < 10; ++i) {
@@ -791,7 +753,6 @@ function main() {
   color = 0xf2f2a7;
   // color = 0xFFFFFF;
   intensity = 50;
-  // bulb_light_1 = new THREE.SpotLight(color, intensity);
   bulb_light_1 = new THREE.PointLight(color, intensity);
   // bulb_light_1.position.set(7, 22, -30); // original
   bulb_light_1.position.set(-5.24, 7.7, -0.08);
@@ -812,7 +773,6 @@ function main() {
   color = 0xf7f7c1;
   color = 0xf2f2a7;
   intensity = 30;
-  // bulb_light_3 = new THREE.SpotLight(color, intensity);
   bulb_light_3 = new THREE.PointLight(color, intensity);
   // bulb_light_3.position.set(-6.5, 25, -35.5);
   bulb_light_3.position.set(-10, -15, -15);
@@ -824,7 +784,6 @@ function main() {
   color = 0xf7f7c1;
   color = 0xf2f2a7;
   intensity = 40;
-  // bulb_light_4 = new THREE.SpotLight(color, intensity);
   bulb_light_4 = new THREE.PointLight(color, intensity);
   bulb_light_4.position.set(-5.24, -8.44, -0.08);
   bulb4Orbit.add(bulb_light_4);
@@ -849,8 +808,6 @@ function main() {
   light.position.set(-18.5, -2.7, -22);
   light.distance = 22;
   scene.add(light);
-  // let helper = new THREE.PointLightHelper(light);
-  // scene.add(helper);
 
   color = 0xffffe0;
   intensity = 10;
@@ -1019,7 +976,7 @@ function main() {
   billboard_canvas.textAlign = 'center';
   billboard_canvas.fillStyle = 'grey';
   billboard_canvas.fillRect(0, 0, width, height);
-  const scaleFactor = Math.min(1, baseWidth / textWidth);
+  let scaleFactor = Math.min(1, baseWidth / textWidth);
   billboard_canvas.translate(width / 2, height / 2);
   billboard_canvas.scale(scaleFactor * 3, 1);
   billboard_canvas.fillStyle = 'white';
@@ -1046,11 +1003,9 @@ function main() {
     radiusTop, radiusBottom, height, radialSegments);
   material = new THREE.MeshPhongMaterial({color: 0xa35903});
   let tree_trunk = new THREE.Mesh(geometry, material);
-  tree_trunk.position.z = -90;
+  tree_trunk.position.z = -80;
   tree_trunk.position.y = -7;
   scene.add(tree_trunk);
-  renderer.render(scene, camera);
-  requestAnimationFrame(render);
 
   // making a quick tree trunk in here
   radiusTop = 5;  // ui: radiusTop
@@ -1061,13 +1016,10 @@ function main() {
     radiusTop, radiusBottom, height, radialSegments);
   material = new THREE.MeshPhongMaterial({color: 0xa35903});
   let tree_trunk2 = new THREE.Mesh(geometry, material);
-  tree_trunk2.position.z = -160;
+  tree_trunk2.position.z = -130;
   tree_trunk2.position.x = 14;
   tree_trunk2.position.y = -7;
   scene.add(tree_trunk2);
-  renderer.render(scene, camera);
-  requestAnimationFrame(render);
-
 
   // making a quick tree trunk in here
   radiusTop = 5;  // ui: radiusTop
@@ -1082,9 +1034,7 @@ function main() {
   tree_trunk3.position.x = 40;
   tree_trunk3.position.y = -7;
   scene.add(tree_trunk3);
-  renderer.render(scene, camera);
-  requestAnimationFrame(render);
-
+  
   // adding render to texture
   boxWidth = 3;
   boxHeight = 3;
@@ -1098,6 +1048,10 @@ function main() {
   render_to_texture_cube.position.x = 16;
   render_to_texture_cube.position.z = -24;
   scene.add(render_to_texture_cube);
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(render);
+
 }
 
   // making the curtains
